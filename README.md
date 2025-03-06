@@ -103,4 +103,16 @@ If your project folder is not opened automatically:
     Open the correct folder.
 
 On the bottom left you should see an indicator that you're inside a docker container now. 
-Now navigate to the project's repo (/app) 
+Now navigate to the project's repo (/app)  
+
+Using Git inside the Container 
+
+Using Local Git with a Dockerized Project
+
+You don’t necessarily have to set up Git inside the Docker container if you don't need to push changes directly from within it. The basic idea is:
+
+    Edit files inside the container (using VS Code or the terminal).
+    Exit the container and return to your local environment.
+    Use your local Git (since your code is still on your local machine) to commit, push, and pull from repositories.
+
+This method assumes your project files are mounted to a shared volume between your local machine and the Docker container, so any changes made inside the container are reflected on your local file system.
