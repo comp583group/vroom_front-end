@@ -61,4 +61,58 @@ The container ensures that all dependencies are the same across all teammates.
 
 The Next.js app will be accessible at http://localhost:3000
 
-If you run into issues, try docker-compose down && docker-compose up --build.
+If you run into issues, try docker-compose down && docker-compose up --build. 
+
+
+Instructions to run VSCode in Docker Environment 
+
+Install VSCode Extensions: Docker and Dev Containers 
+
+Step 0: Run your docker container in a terminal 
+
+Step 1: Open Dev Containers in VS Code
+
+    Open the Command Palette:
+        Press Cmd + Shift + P (Mac) or Ctrl + Shift + P (Windows/Linux).
+
+    Search for and Select:
+        "Dev Containers: Attach to Running Container"
+
+    Pick Your Container:
+        Select your running container from the list.
+
+Step 2: Verify You’re Inside the Container
+
+Once VS Code reopens inside the container:
+
+    Open a terminal in VS Code (Ctrl + ~ or Cmd + ~ on Mac).
+    Run:
+
+    node -v
+
+    npm list typescript
+
+    If Node.js and TypeScript are installed inside the container, you should see their versions.
+
+Step 3: Open Your Project Folder Inside the Container
+
+If your project folder is not opened automatically:
+
+    Click File > Open Folder in VS Code.
+    Navigate to /workspace/ or another mounted directory where your code is stored inside the container.
+    Open the correct folder.
+
+On the bottom left you should see an indicator that you're inside a docker container now. 
+Now navigate to the project's repo (/app)  
+
+Using Git inside the Container 
+
+Using Local Git with a Dockerized Project
+
+You don’t necessarily have to set up Git inside the Docker container if you don't need to push changes directly from within it. The basic idea is:
+
+    Edit files inside the container (using VS Code or the terminal).
+    Exit the container and return to your local environment.
+    Use your local Git (since your code is still on your local machine) to commit, push, and pull from repositories.
+
+This method assumes your project files are mounted to a shared volume between your local machine and the Docker container, so any changes made inside the container are reflected on your local file system.
