@@ -166,7 +166,7 @@ export default function Home() {
       <div className="relative h-[87vh] bg-gray-900">
         <div className="absolute inset-0 overflow-hidden">
           <Image
-            src="/api/placeholder/1920/800"
+            src="/images/carl-gelin-3F0e5HpD7Ro-unsplash.jpg"
             alt="Luxury car"
             fill
             style={{ objectFit: "cover" }}
