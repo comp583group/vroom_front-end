@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import Dropdown from './components/Dropdown';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState({
@@ -50,7 +51,7 @@ export default function Home() {
             </div>
 
             {/* Navigation Links */}
-            <div className="hidden md:flex items-center space-x-6">
+            <div className="hidden md:flex items-center space-x-16 ">
               <div className="relative">
                 <button 
                   className="flex items-center hover:text-blue-300"
@@ -88,42 +89,6 @@ export default function Home() {
                     </div>
                   </div>
                 )}
-              </div>
-
-              <div className="relative">
-                <button 
-                  className="flex items-center hover:text-blue-300"
-                  onClick={() => toggleMenu("usedCars")}
-                >
-                  Used Cars
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-              </div>
-
-              <div className="relative">
-                <button 
-                  className="flex items-center hover:text-blue-300"
-                  onClick={() => toggleMenu("services")}
-                >
-                  Services
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-              </div>
-
-              <div className="relative">
-                <button 
-                  className="flex items-center hover:text-blue-300"
-                  onClick={() => toggleMenu("finance")}
-                >
-                  Finance
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
               </div>
 
               <a href="#" className="hover:text-blue-300">About Us</a>
@@ -260,7 +225,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-gray-900 text-white pt-16 pb-8">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-40 mb-12 ml-18 mr-18">
             {/* Column 1 - About */}
             <div>
               <h3 className="text-lg font-semibold mb-4">About CarDealership</h3>
@@ -278,26 +243,13 @@ export default function Home() {
               <h3 className="text-lg font-semibold mb-4">Vehicles</h3>
               <ul className="space-y-2">
                 <li><a href="#" className="hover:text-blue-300">New Inventory</a></li>
-                <li><a href="#" className="hover:text-blue-300">Used Inventory</a></li>
                 <li><a href="#" className="hover:text-blue-300">Featured Vehicles</a></li>
                 <li><a href="#" className="hover:text-blue-300">Compare Models</a></li>
                 <li><a href="#" className="hover:text-blue-300">Current Offers</a></li>
               </ul>
             </div>
 
-            {/* Column 3 - Services */}
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Services</h3>
-              <ul className="space-y-2">
-                <li><a href="#" className="hover:text-blue-300">Financing</a></li>
-                <li><a href="#" className="hover:text-blue-300">Trade-In Appraisal</a></li>
-                <li><a href="#" className="hover:text-blue-300">Service Center</a></li>
-                <li><a href="#" className="hover:text-blue-300">Parts Department</a></li>
-                <li><a href="#" className="hover:text-blue-300">Schedule Service</a></li>
-              </ul>
-            </div>
-
-            {/* Column 4 - Contact */}
+            {/* Column 3 - Contact */}
             <div>
               <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
               <address className="not-italic mb-4">
