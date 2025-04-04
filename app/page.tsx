@@ -213,7 +213,7 @@ export default function Home() {
             <div className="bg-gray-100 rounded-lg overflow-hidden shadow-md transition-transform hover:scale-105">
               <div className="h-48 relative">
                 <Image
-                  src="/api/placeholder/800/600"
+                  src="/images/gohar-khachatryan-oeA4k4u6AbI-unsplash.jpg"
                   alt="Used Cars"
                   fill
                   style={{ objectFit: "cover" }}
