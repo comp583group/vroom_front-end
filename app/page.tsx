@@ -39,7 +39,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen font-[family-name:var(--font-geist-sans)]">
       {/* Navigation Bar */}
-      <nav className="bg-gray-800 text-white sticky top-0 z-50 shadow-lg">
+      <nav className="bg-gray-900 text-white sticky top-0 z-50 shadow-lg" style= {{backgroundColor: "#ff9d00"}}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             {/* Logo and Dealership Name */}
@@ -47,7 +47,7 @@ export default function Home() {
               <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
                 <span className="font-bold text-xl">CD</span>
               </div>
-              <span className="font-semibold text-2xl tracking-tight">CarDealership</span>
+              <span className="font-semibold text-2xl tracking-tight">Dealership</span>
             </div>
 
             {/* Navigation Links */}
@@ -105,7 +105,7 @@ export default function Home() {
                 <input
                   type="text"
                   placeholder="Search inventory..."
-                  className="bg-gray-700 text-white rounded-full py-1 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500 w-92 h-10"
+                  className="bg-white text-black rounded-full py-1 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500 w-92 h-10"
                 />
                 <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -211,12 +211,12 @@ export default function Home() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-16 bg-blue-600 text-white">
+      <section className="py-16 bg-blue-600 text-white" style={{backgroundColor: "#004a82"}}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready for a Test Drive?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">Experience the thrill of driving your dream car today. Our team is ready to assist you.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="#" className="bg-white text-blue-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-full inline-block transition-colors">Schedule Test Drive</a>
+            <a href="#" className="bg-white text-black hover:bg-gray-100 font-semibold py-3 px-8 rounded-full inline-block transition-colors">Schedule Test Drive</a>
             <a href="#" className="bg-transparent border-2 border-white hover:bg-white/10 text-white font-semibold py-3 px-8 rounded-full inline-block transition-colors">Contact Us</a>
           </div>
         </div>
