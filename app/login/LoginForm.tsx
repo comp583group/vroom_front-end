@@ -1,64 +1,31 @@
+// app/login/LoginForm.tsx
 "use client";
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'; // Import useRouter
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [formError, setFormError] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter(); // Initialize the router
 
-  // Function to sanitize inputs
-  const sanitizeInput = (input: string) => {
-    return input.trim().replace(/[^\w\s@.]/gi, ''); // Remove unwanted characters
-  };
-
-  // Function to validate email format
-  const validateEmail = (email: string) => {
-    const regex = /^[a-zA-Z0-9._-]+@[a-zAZ0-9.-]+\.[a-zA-Z]{2,6}$/;
-    return regex.test(email);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Sanitize inputs
-    const sanitizedEmail = sanitizeInput(email);
-    const sanitizedPassword = sanitizeInput(password);
-
-    // Clear previous errors
-    setEmailError('');
-    setPasswordError('');
-    setFormError('');
-
-    let isValid = true;
-
-    // Validate email
-    if (!sanitizedEmail) {
-      setEmailError('Email is required');
-      isValid = false;
-    } else if (!validateEmail(sanitizedEmail)) {
-      setEmailError('Please enter a valid email address');
-      isValid = false;
+    // Basic client-side validation
+    if (!email || !password) {
+      setError("Email and Password are required.");
+      return;
     }
 
-    // Validate password
-    if (!sanitizedPassword) {
-      setPasswordError('Password is required');
-      isValid = false;
-    }
+    // Placeholder for login logic (e.g., API call)
+    console.log('Login attempt:', { email, password });
 
-    if (!isValid) return;
-
-    // Simulate a login attempt (replace this with an API call)
-    if (sanitizedEmail === 'example@autodrive.com' && sanitizedPassword === 'password123') {
-      console.log('Login successful');
-      // Redirect or handle successful login
-    } else {
-      setFormError('Invalid email or password');
-    }
+    // On successful login (replace with actual login check)
+    // Redirect to the CRM dashboard 
+    router.push('../'); // Placeholder route to home screen for now
   };
 
   return (
@@ -67,6 +34,8 @@ export default function LoginForm() {
 
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
         <form onSubmit={handleSubmit} className="space-y-6">
+          {error && <div className="text-red-500 text-center mb-4">{error}</div>} {/* Error message */}
+          
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email Address</label>
             <input
@@ -77,10 +46,9 @@ export default function LoginForm() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${emailError ? 'border-red-500' : 'border-gray-300'}`}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               placeholder="name@autodrive.com"
             />
-            {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
           </div>
 
           <div>
@@ -93,13 +61,12 @@ export default function LoginForm() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${passwordError ? 'border-red-500' : 'border-gray-300'}`}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             />
-            {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
-          </div>
 
-          <div className="text-sm my-3">
-            <Link href="/forgot-password" className="font-medium text-black hover:text-blue-500">Forgot password?</Link>
+            <div className="text-sm my-3">
+              <Link href="/forgot-password" className="font-medium text-black hover:text-blue-500">Forgot password?</Link>
+            </div>
           </div>
 
           <div>
@@ -111,8 +78,6 @@ export default function LoginForm() {
               Sign in
             </button>
           </div>
-
-          {formError && <div className="mt-4 text-red-500 text-center">{formError}</div>}
         </form>
       </div>
 
