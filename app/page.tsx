@@ -24,6 +24,7 @@ export default function Home() {
   // Simple login handler (replace with your own login logic)
   const handleLogin = () => {
     console.log("Login clicked");
+    window.location.href = "/login";
     // e.g., redirect to a login page: window.location.href = "/login";
   };
 
