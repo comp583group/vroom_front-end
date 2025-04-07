@@ -1,4 +1,3 @@
-// app/login/LoginForm.tsx
 "use client";
 
 import { useState } from 'react';
@@ -7,11 +6,59 @@ import Link from 'next/link';
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [formError, setFormError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Function to sanitize inputs
+  const sanitizeInput = (input: string) => {
+    return input.trim().replace(/[^\w\s@.]/gi, ''); // Remove unwanted characters
+  };
+
+  // Function to validate email format
+  const validateEmail = (email: string) => {
+    const regex = /^[a-zA-Z0-9._-]+@[a-zAZ0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return regex.test(email);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login attempt:', { email, password });
-    // Here, you'd typically call an API for login
+
+    // Sanitize inputs
+    const sanitizedEmail = sanitizeInput(email);
+    const sanitizedPassword = sanitizeInput(password);
+
+    // Clear previous errors
+    setEmailError('');
+    setPasswordError('');
+    setFormError('');
+
+    let isValid = true;
+
+    // Validate email
+    if (!sanitizedEmail) {
+      setEmailError('Email is required');
+      isValid = false;
+    } else if (!validateEmail(sanitizedEmail)) {
+      setEmailError('Please enter a valid email address');
+      isValid = false;
+    }
+
+    // Validate password
+    if (!sanitizedPassword) {
+      setPasswordError('Password is required');
+      isValid = false;
+    }
+
+    if (!isValid) return;
+
+    // Simulate a login attempt (replace this with an API call)
+    if (sanitizedEmail === 'example@autodrive.com' && sanitizedPassword === 'password123') {
+      console.log('Login successful');
+      // Redirect or handle successful login
+    } else {
+      setFormError('Invalid email or password');
+    }
   };
 
   return (
@@ -19,9 +66,6 @@ export default function LoginForm() {
       <h1 className="text-6xl my-6 font-extrabold text-white">Login</h1>
 
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
-        <div className="text-center mb-6">
-        </div>
-
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email Address</label>
@@ -33,9 +77,10 @@ export default function LoginForm() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${emailError ? 'border-red-500' : 'border-gray-300'}`}
               placeholder="name@autodrive.com"
             />
+            {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
           </div>
 
           <div>
@@ -48,12 +93,13 @@ export default function LoginForm() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${passwordError ? 'border-red-500' : 'border-gray-300'}`}
             />
+            {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
+          </div>
 
-            <div className="text-sm my-3">
-              <Link href="/forgot-password" className="font-medium text-black hover:text-blue-500">Forgot password?</Link>
-            </div>
+          <div className="text-sm my-3">
+            <Link href="/forgot-password" className="font-medium text-black hover:text-blue-500">Forgot password?</Link>
           </div>
 
           <div>
@@ -65,6 +111,8 @@ export default function LoginForm() {
               Sign in
             </button>
           </div>
+
+          {formError && <div className="mt-4 text-red-500 text-center">{formError}</div>}
         </form>
       </div>
 
