@@ -29,9 +29,13 @@ body {
   display: inline-block;
 }
 
-button, a { 
+button { 
   font-weight: semi-bold;
-  font-size: 1.1em;
+  font-size: 1.3em;
+}
+
+a { 
+  font-size: 1em;
 }
 
 .dropdown-content {
