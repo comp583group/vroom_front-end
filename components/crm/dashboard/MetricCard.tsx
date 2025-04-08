@@ -12,17 +12,17 @@ type Props = {
     const trendColorClass = {
         green: 'text-green-600',
         red: 'text-red-600',
-        gray: 'text-gray-500',
+        gray: 'text-gray-800',
     }
     
     return (
-      <div className="bg-white p-4 rounded-lg shadow flex items-center justify-between">
+      <div className="bg-white p-4 rounded-lg shadow flex items-center justify-around">
+        {icon && <div className="text-blue-600 text-3xl">{icon}</div>}
         <div>
             <p className="text-sm text-gray-500">{title}</p>
             <h2 className="text-2xl font-bold text-black">{value}</h2>
-            <p className="text-sm text-green-600">{trend}</p>
         </div>
-        {icon && <div className="text-blue-600 text-3xl">{icon}</div>}
+        <p className={`text-sm mt-1 ${trendColorClass[trendColor]}`}>{trend}</p>
       </div>
     );
   }
