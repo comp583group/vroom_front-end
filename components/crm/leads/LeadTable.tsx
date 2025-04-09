@@ -1,4 +1,6 @@
 import { Mail, Phone, MoreVertical } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { LeadMessagePopup } from './LeadsMessagePopup';
 
 export type Lead = {
   id: number;
@@ -17,6 +19,9 @@ export function LeadTable({ leads }: { leads: Lead[] }) {
     'In Progress': 'bg-yellow-100 text-yellow-800',
     Contacted: 'bg-green-100 text-green-800',
   };
+
+  const [expandedLead, setExpandedLead] = useState<number | null>(null);
+  const messageRefs = useRef<Record<number, HTMLTableCellElement | null>>({});
 
   return (
     <div className="bg-white shadow rounded-lg overflow-x-auto">
@@ -57,7 +62,32 @@ export function LeadTable({ leads }: { leads: Lead[] }) {
                   <span className="text-sm text-gray-400 italic">Unassigned</span>
                 )}
               </td>
-              <td className="px-6 py-4 text-black">{lead.message}</td>
+
+              <td
+                ref={(el) => {
+                    messageRefs.current[lead.id] = el;
+                }}
+                className="px-6 py-4 text-black relative max-w-xs"
+              >
+                <p className="truncate whitespace-nowrap overflow-hidden">{lead.message}</p>
+                <button
+                    onClick={() => setExpandedLead(lead.id)}
+                    className="text-xs text-blue-600 hover:underline mt-1"
+                >
+                    View
+                </button>
+
+                {/* Expanded message popup */}
+                {expandedLead === lead.id && (
+                    <LeadMessagePopup
+                    anchorRef={{ current: messageRefs.current[lead.id]! }}
+                    message={lead.message}
+                    onClose={() => setExpandedLead(null)}
+                  />
+                )}
+              </td>
+
+
               <td className="px-6 py-4 text-black">{new Date(lead.date).toLocaleDateString()}</td>
             
               <td className="px-6 py-4 gap-2 text-gray-600">
