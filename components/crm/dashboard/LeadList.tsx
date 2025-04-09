@@ -1,4 +1,5 @@
 // Recent leads list
+import Link from 'next/link';
 
 export type Lead = {
     name: string;
@@ -20,10 +21,10 @@ export function LeadList({ leads }: { leads: Lead[] }) {
         <h3 className="text-lg font-bold text-black mb-4">Recent Leads</h3>
         <ul className="space-y-4">
           {leads.map((lead, i) => (
-            <li key={i} className="flex justify-around items-start hover:bg-gray-100 rounded-md transition">
+            <li key={i} className="flex justify-around items-start hover:bg-gray-100 rounded-md transition cursor-pointer">
               <div>
-                <p className="font-medium text-black">{lead.name}</p>
-                <p className="text-sm text-gray-400">{lead.inquiry}</p>
+                <p className="font-semibold text-sm text-black">{lead.name}</p>
+                <p className="text-sm text-gray-500">{lead.inquiry}</p>
               </div>
               <span
                 className={`text-xs px-2 py-1 rounded-full font-medium ${badgeColor[lead.status]}`}

@@ -16,7 +16,7 @@ type Props = {
     }
     
     return (
-      <div className="bg-white p-4 rounded-lg shadow flex items-center justify-around">
+      <div className="bg-white p-4 rounded-lg shadow flex items-center justify-around hover:bg-gray-100 rounded-md transition cursor-pointer">
         {icon && <div className="text-blue-600 text-3xl">{icon}</div>}
         <div>
             <p className="text-sm text-gray-500">{title}</p>

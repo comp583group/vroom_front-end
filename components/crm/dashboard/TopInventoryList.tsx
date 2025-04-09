@@ -1,5 +1,6 @@
 // Top inventory block
 import { CarFront } from 'lucide-react';
+import Link from 'next/link';
 
 export type InventoryItem = {
     manufacturer: string;
@@ -22,7 +23,7 @@ export type InventoryItem = {
         <h3 className="text-lg font-bold text-black mb-4">Top Inventory</h3>
         <ul className="space-y-4">
           {cars.map((car, i) => (
-            <li key={i} className="flex justify-between text-black font-medium hover:bg-gray-100 rounded-md transition">
+            <li key={i} className="flex justify-between text-black font-medium hover:bg-gray-100 rounded-md transition cursor-pointer">
                 <div className="flex items-center gap-4">
                     {/* Car icon block */}
                     <div className="bg-gray-100 p-2 rounded-lg">
