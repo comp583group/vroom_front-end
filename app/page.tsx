@@ -146,7 +146,7 @@ export default function Home() {
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Drive Your Dreams Home Today</h1>
             <p className="text-lg mb-8">Discover our premium selection of vehicles with competitive financing options.</p>
             <a 
-              href="#" 
+              href="/browse-cars" 
               className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full inline-block transition-colors"
             >
               Browse New Cars
