@@ -172,7 +172,7 @@ export default function Home() {
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-2">New Inventory</h3>
                 <p className="text-gray-600 mb-4">Explore our latest models with cutting-edge features and technology.</p>
-                <a href="#" className="text-blue-600 font-medium hover:underline">View All New Cars →</a>
+                <a href="/browse-cars" className="text-blue-600 font-medium hover:underline">View All New Cars →</a>
               </div>
             </div>
 
