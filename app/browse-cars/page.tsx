@@ -892,7 +892,7 @@ export default function BrowseCars() {
             <div>
               <h3 className="text-lg font-semibold mb-4">Vehicles</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="hover:text-blue-300">New Inventory</a></li>
+                <li><a href="/browse-cars" className="hover:text-blue-300">New Inventory</a></li>
                 <li><a href="#" className="hover:text-blue-300">Featured Vehicles</a></li>
                 <li><a href="#" className="hover:text-blue-300">Compare Models</a></li>
                 <li><a href="#" className="hover:text-blue-300">Current Offers</a></li>
