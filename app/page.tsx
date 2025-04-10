@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import Dropdown from './components/Dropdown';
+import Link from 'next/link';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState({
@@ -44,12 +45,12 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             {/* Logo and Dealership Name */}
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                <span className="font-bold text-xl">CD</span>
-              </div>
-              <span className="font-semibold text-2xl tracking-tight">Dealership</span>
-            </div>
+            <Link href="/" className="flex items-center space-x-4">
+          <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+            <span className="font-bold text-xl">CD</span>
+          </div>
+          <span className="font-semibold text-2xl tracking-tight">Dealership</span>
+        </Link>
 
             {/* Navigation Links */}
             <div className="hidden md:flex items-center space-x-16 ">
