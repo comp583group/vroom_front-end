@@ -276,7 +276,7 @@ export default function BrowseCars() {
               </div>
 
               <a href="#" className="hover:text-blue-300">About Us</a>
-              <a href="#" className="hover:text-blue-300">Contact</a>
+              <a href="/interest-form" className="hover:text-blue-300">Contact</a>
               {/* Login Button */}
               <button onClick={handleLogin} className="hover:text-blue-300">
                 Login
