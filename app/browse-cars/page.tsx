@@ -100,33 +100,23 @@ export default function BrowseCars() {
 
   // Load car data
   useEffect(() => {
-    // In a real app, you would fetch this data from an API
-    const mockCars: Car[] = Array.from({ length: 24 }, (_, i) => ({
-      id: i + 1,
-      name: `${allBrands[i % allBrands.length]} ${["Apex", "Explorer", "Vision", "Elite", "Horizon"][i % 5]} ${String.fromCharCode(65 + (i % 26))}`,
-      brand: allBrands[i % allBrands.length],
-      model: ["Apex", "Explorer", "Vision", "Elite", "Horizon"][i % 5] + " " + String.fromCharCode(65 + (i % 26)),
-      year: 2015 + (i % 11),
-      price: 20000 + (i * 2500),
-      mileage: i % 2 === 0 ? 0 : Math.floor(Math.random() * 50000),
-      fuelType: allFuelTypes[i % allFuelTypes.length],
-      transmission: allTransmissions[i % allTransmissions.length],
-      bodyType: allBodyTypes[i % allBodyTypes.length],
-      color: ["Black", "White", "Silver", "Blue", "Red", "Gray"][i % 6],
-      image: `/api/placeholder/600/400?text=Car${i + 1}`,
-      features: [
-        "Bluetooth",
-        "Navigation",
-        "Leather Seats",
-        "Sunroof",
-        "Backup Camera",
-        "Heated Seats"
-      ].slice(0, 3 + (i % 4)),
-    }));
+  const fetchCars = async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/cars/`); //JUST FOR TESTING
+      if (!response.ok) throw new Error("Failed to fetch cars");
 
-    setCars(mockCars);
-    setFilteredCars(mockCars);
-  }, []);
+      const data = await response.json();
+      console.log(data);
+      setCars(data);
+      setFilteredCars(data);
+    } catch (error) {
+      console.error("Error loading car data:", error);
+    }
+  };
+
+  fetchCars();
+}, []);
+
 
   // Apply filters and sorting
   useEffect(() => {
@@ -797,12 +787,13 @@ export default function BrowseCars() {
                   {filteredCars.map((car) => (
                     <div key={car.id} className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg">
                       <div className="relative h-48">
+                        {/* // COMMENTED OUT FOR testing
                         <Image
                           src={car.image}
                           alt={car.name}
                           fill
                           className="object-cover"
-                        />
+                        /> */}
                         {car.mileage === 0 && (
                           <span className="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
                         )}
