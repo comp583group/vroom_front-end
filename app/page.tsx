@@ -22,12 +22,7 @@ export default function Home() {
     });
   };
 
-  // Simple login handler (replace with your own login logic)
-  const handleLogin = () => {
-    console.log("Login clicked");
-    window.location.href = "/login";
-    // e.g., redirect to a login page: window.location.href = "/login";
-  };
+
 
   const carCategories = [
     { name: "Sedans", image: "/api/placeholder/120/80" },
@@ -96,9 +91,8 @@ export default function Home() {
               <a href="#" className="hover:text-blue-300">About Us</a>
               <a href="/interest-form" className="hover:text-blue-300">Contact Us</a>
               {/* Login Button */}
-              <button onClick={handleLogin} className="hover:text-blue-300">
-                Login
-              </button>
+              <a href="/login" className="hover:text-blue-300">Login</a>
+
             </div>
 
             {/* Search Bar */}
