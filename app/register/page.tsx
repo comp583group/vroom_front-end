@@ -97,7 +97,7 @@ export default function EmployeeRegistration() {
   }, [submitSuccess, router]);
   
   return (
-    <div className="min-h-screen bg-blue-50 py-12 px-4 flex items-center justify-center" style={{ backgroundColor: "#f5f8fb" }}>
+    <div className="min-h-screen bg-blue-50 py-14 px-4 flex items-center justify-center" style={{ backgroundColor: "#FEBA33" }}>
       <div className="max-w-xl w-full bg-white rounded-lg shadow-xl overflow-hidden">
         <div className="p-6 border-b border-gray-200 bg-gray-50" style={{ backgroundColor: "#004a82" }}>
           <h2 className="text-2xl font-bold text-center text-white">Employee Registration</h2>
@@ -122,7 +122,7 @@ export default function EmployeeRegistration() {
                 </button>
             </div>
             ) : (
-          <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          <form onSubmit={handleSubmit} className="p-6 space-y-9">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="firstName" className="block text-gray-700 font-medium mb-1">
@@ -197,11 +197,11 @@ export default function EmployeeRegistration() {
 
             {errors.submit && <p className="text-red-600 text-sm text-center">{errors.submit}</p>}
 
-            <div className="text-center">
+            <div className="text-center py-1">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-blue-600 text-white font-medium py-2 px-6 rounded-full hover:bg-blue-700 transition-colors disabled:opacity-50"
+                className="bg-blue-600 text-white font-medium py-4 px-18 rounded-full hover:bg-blue-700 transition-colors disabled:opacity-50"
                 style={{ backgroundColor: "#ff9d00" }}
               >
                 {isSubmitting ? "Submitting..." : "Register"}
