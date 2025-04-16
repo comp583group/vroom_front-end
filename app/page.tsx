@@ -94,7 +94,7 @@ export default function Home() {
               </div>
 
               <a href="#" className="hover:text-blue-300">About Us</a>
-              <a href="#" className="hover:text-blue-300">Contact</a>
+              <a href="/interest-form" className="hover:text-blue-300">Contact Us</a>
               {/* Login Button */}
               <button onClick={handleLogin} className="hover:text-blue-300">
                 Login
@@ -219,7 +219,7 @@ export default function Home() {
           <p className="text-xl mb-8 max-w-2xl mx-auto">Experience the thrill of driving your dream car today. Our team is ready to assist you.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a href="#" className="bg-white text-black hover:bg-gray-100 font-semibold py-3 px-8 rounded-full inline-block transition-colors">Schedule Test Drive</a>
-            <a href="#" className="bg-transparent border-2 border-white hover:bg-white/10 text-white font-semibold py-3 px-8 rounded-full inline-block transition-colors">Contact Us</a>
+            <a href="/interest-form" className="bg-transparent border-2 border-white hover:bg-white/10 text-white font-semibold py-3 px-8 rounded-full inline-block transition-colors">Contact Us</a>
           </div>
         </div>
       </section>
