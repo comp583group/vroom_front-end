@@ -41,10 +41,10 @@ export default function Home() {
           <div className="flex items-center justify-between h-20">
             {/* Logo and Dealership Name */}
             <Link href="/" className="flex items-center space-x-4">
-          <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-            <span className="font-bold text-xl">CD</span>
-          </div>
-          <span className="font-semibold text-2xl tracking-tight">Dealership</span>
+            <div className="w-12 h-12 relative">
+                <Image src="/sports-car-icon.svg" alt="Dealership Logo" fill />
+            </div>
+          <span className="font-semibold text-2xl tracking-tight">Carvantage</span>
         </Link>
 
             {/* Navigation Links */}
