@@ -787,13 +787,13 @@ export default function BrowseCars() {
                   {filteredCars.map((car) => (
                     <div key={car.id} className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg">
                       <div className="relative h-48">
-                        {/* // COMMENTED OUT FOR testing
+                        { // COMMENTED OUT FOR testing
                         <Image
                           src={car.image}
                           alt={car.name}
                           fill
                           className="object-cover"
-                        /> */}
+                        /> }
                         {car.mileage === 0 && (
                           <span className="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
                         )}
@@ -802,6 +802,7 @@ export default function BrowseCars() {
                         <h3 className="text-lg font-semibold mb-1">{car.name}</h3>
                         <div className="flex justify-between items-center mb-3">
                           <p className="text-gray-600">{car.year} • {car.transmission}</p>
+                          <p className="text-gray-600">{car.year} • {car.name}</p>
                           <p className="text-blue-600 font-bold">{formatPrice(car.price)}</p>
                         </div>
                         <div className="flex flex-wrap gap-2 mb-4">
