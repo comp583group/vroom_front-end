@@ -25,7 +25,7 @@ export default function LoginForm() {
 
     // On successful login (replace with actual login check)
     // Redirect to the CRM dashboard 
-    router.push('../'); // Placeholder route to home screen for now
+    router.push('/crm/dashboard'); // Placeholder route to home screen for now
   };
 
   return (
