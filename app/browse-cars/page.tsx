@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import Dropdown from '../components/Dropdown';
+//import Dropdown from '../components/Dropdown'; // not being read
 import Link from 'next/link';
 
 // Define car interface

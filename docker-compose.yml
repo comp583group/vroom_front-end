@@ -5,8 +5,12 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - .:/app
-      - /app/node_modules
+      - .:/app:delegated
+      - next_node_modules:/app/node_modules  ## this was the lucide-react issue
+
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
+
+volumes:
+  next_node_modules:

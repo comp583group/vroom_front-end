@@ -16,11 +16,11 @@ COPY . .
 # Build the project
 RUN npm run build
 
-# Expose port 3000 for Next.js
-EXPOSE 3000
-
 # Set NODE_ENV to development for hot reloading
 ENV NODE_ENV=development
+
+# Expose port 3000 for Next.js
+EXPOSE 3000
 
 # Define the command to run the application
 CMD ["npm", "run", "dev"]
