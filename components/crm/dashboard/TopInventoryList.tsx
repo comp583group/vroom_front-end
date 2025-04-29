@@ -1,6 +1,6 @@
 // Top inventory block
 import { CarFront } from 'lucide-react';
-import Link from 'next/link';
+//import Link from 'next/link';
 
 export type InventoryItem = {
     manufacturer: string;

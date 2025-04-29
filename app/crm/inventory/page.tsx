@@ -4,69 +4,48 @@ import { useState } from 'react';
 import { Car, InventoryTable } from '@/components/crm/inventory/InventoryTable';
 import { InventoryFilters } from '@/components/crm/inventory/InventoryFilters';
 
+interface CarApiResponse {
+  id: number;
+  brand: string;
+  model: string;
+  year: number;
+  stock_number: string;
+  body_type: string;
+  price: number;
+  status: string;
+  date_added: string;
+}
+
 export default function InventoryPage() {
-  const inventory: Car[] = [
-    {
-      id: 1,
-      year: 2025,
-      manufacturer: 'Tesla',
-      model: 'Model 3',
-      trim: 'Performance',
-      stockNumber: 'TSL-9935',
-      type: 'Electric',
-      price: 54900,
-      status: 'Available',
-      dateAdded: '2025-03-20',
-    },
-    {
-      id: 2,
-      year: 2025,
-      manufacturer: 'Toyota',
-      model: 'RAV4',
-      trim: 'XLE',
-      stockNumber: 'TYT-2284',
-      type: 'SUV',
-      price: 31250,
-      status: 'Pending',
-      dateAdded: '2024-12-05',
-    },
-    {
-      id: 3,
-      year: 2024,
-      manufacturer: 'Ford',
-      model: 'F-150',
-      trim: 'Lariat',
-      stockNumber: 'FRD-1177',
-      type: 'Truck',
-      price: 47500,
-      status: 'Available',
-      dateAdded: '2025-01-10',
-    },
-    {
-        id: 4,
-        year: 2025,
-        manufacturer: 'Honda',
-        model: 'Civic',
-        trim: 'Type R',
-        stockNumber: 'HND-1269',
-        type: 'Hatchback',
-        price: 47045,
-        status: 'Sold',
-        dateAdded: '2024-10-21',
-      },
-      {
-        id: 5,
-        year: 2025,
-        manufacturer: 'Toyota',
-        model: 'Sienna',
-        trim: 'XLE',
-        stockNumber: 'TYT-1432',
-        type: 'Minivan',
-        price: 45899,
-        status: 'Sold',
-        dateAdded: '2025-2-23',
-      },
-  ];
+  const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+  const [inventory, setInventory] = useState<Car[]>([]);
+
+  const fetchInventory = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cars/`);
+      const data = await res.json();
+
+      const formatted = data.map((car: CarApiResponse) => ({
+        id: car.id,
+        year: car.year,
+        manufacturer: car.brand,
+        model: car.model,
+        trim: '', // Optional: store or infer from name?
+        stockNumber: car.stock_number,
+        type: car.body_type,
+        price: car.price,
+        status: capitalize(car.status),
+        dateAdded: car.date_added,
+      }));
+
+      setInventory(formatted);
+    } catch (error) {
+      console.error("Failed to fetch inventory:", error);
+    }
+  };
+
+  fetchInventory();
+//}, []);
 
   const [selectedStatus, setSelectedStatus] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');

@@ -10,7 +10,7 @@ type Props = {
   onAddClick: () => void;
 };
 
-const statuses = ['All', 'Available', 'Pending', 'Sold'];
+//const statuses = ['All', 'Available', 'Pending', 'Sold'];
 
 export function InventoryFilters({ 
     selectedStatus, 

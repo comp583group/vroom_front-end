@@ -9,7 +9,7 @@ export default function TopBar() {
     <header className="w-full h-16 px-6 flex items-center justify-between border-b bg-white">
       <div>
         <h2 className="text-lg font-semibold text-gray-800">Welcome back, Sevan 👋</h2>
-        <p className="text-sm text-gray-500">Here's what's happening in your dealership today.</p>
+        <p className="text-sm text-gray-500">Here&apos;s what&apos;s happening in your dealership today.</p>
       </div>
 
       <div className="flex items-center gap-4">

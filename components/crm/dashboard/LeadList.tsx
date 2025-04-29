@@ -1,5 +1,5 @@
 // Recent leads list
-import Link from 'next/link';
+//import Link from 'next/link';
 
 export type Lead = {
     name: string;

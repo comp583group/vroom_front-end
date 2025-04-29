@@ -1,64 +1,60 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Lead, LeadTable } from '@/components/crm/leads/LeadTable';
 import { LeadFilters } from '@/components/crm/leads/LeadFilters';
 
+
+interface LeadApiResponse {
+  id: number;
+  name: string;
+  email: string;
+  phone_number: string;
+  message: string;
+  status: string;
+  created_at: string;
+  assigned_to: string | null;
+  vehicle_interest: {
+    brand: string;
+    model: string;
+    year: number;
+  };
+}
+
 export default function LeadsPage() {
-    const leads: Lead[] = [
-      {
-        id: 1,
-        name: 'Sarah Wilson',
-        email: 'sarah@email.com',
-        vehicle: '2025 BMW X5',
-        status: 'Contacted',
-        message: 'Interested in a luxury SUV.',
-        date: '2025-01-15',
-        assignedTo: 'John Smith',
-      },
-      {
-        id: 2,
-        name: 'Michael Brown',
-        email: 'michael@email.com',
-        vehicle: '2025 Toyota Sienna',
-        status: 'Open',
-        message: 'I want a good family car.',
-        date: '2025-01-14',
-        assignedTo: null,
-      },
-      {
-        id: 3,
-        name: 'Emily Davis',
-        email: 'emily@email.com',
-        vehicle: '2025 Ford F150',
-        status: 'In Progress',
-        message: 'I need a good truck for work.',
-        date: '2025-01-13',
-        assignedTo: 'Joe Schmoe',
-      },
-      {
-        id: 4,
-        name: 'Donald Trump',
-        email: 'donnyt@email.com',
-        vehicle: '2025 Tesla Model S Plaid',
-        status: 'Contacted',
-        message: 'I gotta go fast.',
-        date: '2025-01-20',
-        assignedTo: 'Elon Musk',
-      },
-      {
-        id: 5,
-        name: 'Douglas Adams',
-        email: 'douglasadams@email.com',
-        vehicle: '2024 Subaru Outback',
-        status: 'Open',
-        message: 'I\'m looking for an all wheel drive car for the mountains.',
-        date: '2025-03-20',
-        assignedTo: null,
-      },
-    ];
+  const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [selectedStatus, setSelectedStatus] = useState<string>('All');
+
+  useEffect(() => {
+    const fetchLeads = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/leads/`);
+        const data = await res.json();
+
+        // Map API response to Lead[]
+        const formattedLeads = data.map((lead: LeadApiResponse) => ({
+          id: lead.id,
+          name: lead.name,
+          email: lead.email,
+          vehicle: `${lead.vehicle_interest.year} ${lead.vehicle_interest.brand} ${lead.vehicle_interest.model}`,
+          status: capitalize(lead.status),
+          message: lead.message,
+          date: lead.created_at.split('T')[0],
+          assignedTo: lead.assigned_to || null,
+        }));
+
+        setLeads(formattedLeads);
+      } catch (error) {
+        console.error("Failed to load leads:", error);
+      }
+    };
+
+    fetchLeads();
+  }, []);
   
-    const [selectedStatus, setSelectedStatus] = useState<string>('All');
+    //const [selectedStatus, setSelectedStatus] = useState<string>('All');
 
     const filteredLeads = selectedStatus === 'All'
       ? leads
