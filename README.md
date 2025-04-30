@@ -116,3 +116,18 @@ You don’t necessarily have to set up Git inside the Docker container if you do
     Use your local Git (since your code is still on your local machine) to commit, push, and pull from repositories.
 
 This method assumes your project files are mounted to a shared volume between your local machine and the Docker container, so any changes made inside the container are reflected on your local file system.
+
+
+
+## Update 4/30/2025 -> For replication (changes made for API testing)
+1. Fetch current changes
+
+2. Start backend
+
+3. Create `.env.local` in root folder of front-end
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
+
+4. Test front-end 
