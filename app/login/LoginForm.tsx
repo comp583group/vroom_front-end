@@ -6,27 +6,50 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation'; // Import useRouter
 
 export default function LoginForm() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const router = useRouter(); // Initialize the router
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
 
-    // Basic client-side validation
-    if (!email || !password) {
+    if (!username || !password) {
       setError("Email and Password are required.");
       return;
     }
 
-    // Placeholder for login logic (e.g., API call)
-    console.log('Login attempt:', { email, password });
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/token/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username, // match Django's auth fields
+          password: password,
+        }),
+      });
 
-    // On successful login (replace with actual login check)
-    // Redirect to the CRM dashboard 
-    router.push('/crm/dashboard'); // Placeholder route to home screen for now
+      if (!response.ok) {
+        throw new Error("Invalid credentials");
+      }
+
+      const data = await response.json();
+
+      // Store JWT access token in localStorage (or cookie later)
+      localStorage.setItem("accessToken", data.access);
+      localStorage.setItem("refreshToken", data.refresh);
+
+      // Redirect to dashboard
+      router.push("/crm/dashboard");
+    } catch (err) {
+      console.error(err);
+      setError("Login failed. Check your credentials.");
+    }
   };
+
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center" style={{ backgroundColor: "#FEBA33" }}>
@@ -37,18 +60,18 @@ export default function LoginForm() {
           {error && <div className="text-red-500 text-center mb-4">{error}</div>} {/* Error message */}
           
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email Address</label>
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
             <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
+              id="username"
+              name="username"
+              type="text"
+              autoComplete="username"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              placeholder="name@autodrive.com"
-            />
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              placeholder="admin"
+            />            
           </div>
 
           <div>
@@ -61,7 +84,7 @@ export default function LoginForm() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             />
 
             <div className="text-sm my-3">
