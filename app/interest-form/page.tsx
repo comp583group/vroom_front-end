@@ -4,8 +4,30 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
+interface FormErrors {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  message?: string;
+  submit?: string;
+
+  [key: string]: string | undefined;
+}
+
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  message: string;
+  preferredContact: "email" | "phone" | "text";
+  interestedIn: "newCars" | "usedCars" | "testDrive" | "financing" | "service" | "other";
+}
+
+
 export default function InterestForm() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
     email: "",
@@ -14,13 +36,14 @@ export default function InterestForm() {
     preferredContact: "email",
     interestedIn: "newCars"
   });
+  
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: FormErrors = {};
     
     // First name validation
     if (!formData.firstName.trim()) {
@@ -55,7 +78,7 @@ export default function InterestForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     
     // For phone field, format as user types
@@ -86,7 +109,7 @@ export default function InterestForm() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     if (validateForm()) {
@@ -354,7 +377,7 @@ export default function InterestForm() {
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    rows="4"
+                    rows={4}
                     placeholder="Tell us about your vehicle needs, questions, or preferred time to contact you..."
                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                       errors.message ? "border-red-500 focus:ring-red-500" : "focus:ring-blue-500"

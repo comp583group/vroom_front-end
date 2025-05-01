@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import Dropdown from './components/Dropdown';
+//import Dropdown from './components/Dropdown';
 import Link from 'next/link';
 
 export default function Home() {
@@ -13,14 +13,16 @@ export default function Home() {
     finance: false,
   });
 
-  const toggleMenu = (menu) => {
-    setIsMenuOpen({
-      ...Object.fromEntries(
-        Object.entries(isMenuOpen).map(([key]) => [key, false])
-      ),
-      [menu]: !isMenuOpen[menu],
-    });
+  const toggleMenu = (menu: keyof typeof isMenuOpen) => {
+    setIsMenuOpen((prev) => ({
+      newCars: false,
+      usedCars: false,
+      services: false,
+      finance: false,
+      [menu]: !prev[menu],
+    }));
   };
+  
 
 
 

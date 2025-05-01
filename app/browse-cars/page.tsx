@@ -73,14 +73,16 @@ export default function BrowseCars() {
   const allTransmissions = ["Automatic", "Manual", "CVT", "Dual-Clutch"];
 
   // Toggle nav menu
-  const toggleMenu = (menu) => {
-    setIsMenuOpen({
-      ...Object.fromEntries(
-        Object.entries(isMenuOpen).map(([key]) => [key, false])
-      ),
-      [menu]: !isMenuOpen[menu],
-    });
+  const toggleMenu = (menu: keyof typeof isMenuOpen) => {
+    setIsMenuOpen((prev) => ({
+      newCars: false,
+      usedCars: false,
+      services: false,
+      finance: false,
+      [menu]: !prev[menu],
+    }));
   };
+  
 
   // Simple login handler
   const handleLogin = () => {
@@ -158,11 +160,13 @@ export default function BrowseCars() {
     setFilteredCars(results);
   }, [cars, filters, sortOption]);
 
+  type ArrayFilterKeys = 'brands' | 'bodyTypes' | 'fuelTypes' | 'transmissions';
+
   // Toggle filter checkbox
-  const handleCheckboxFilter = (filterType: keyof FilterState, value: string) => {
+  const handleCheckboxFilter = (filterType: ArrayFilterKeys, value: string) => {
     setFilters(prev => {
-      const currentValues = [...prev[filterType]];
-      
+      const currentValues = [...prev[filterType]]; // now TypeScript knows this is a string[]
+  
       if (currentValues.includes(value)) {
         return {
           ...prev,
@@ -176,6 +180,7 @@ export default function BrowseCars() {
       }
     });
   };
+  
 
   // Handle slider changes
   const handleRangeChange = (filterType: string, value: number) => {

@@ -33,13 +33,14 @@ export default function CarListing() {
     "Backup Camera"
   ];
 
-  const toggleMenu = (menu) => {
-    setIsMenuOpen({
-      ...Object.fromEntries(
-        Object.entries(isMenuOpen).map(([key]) => [key, false])
-      ),
-      [menu]: !isMenuOpen[menu],
-    });
+  const toggleMenu = (menu: keyof typeof isMenuOpen) => {
+    setIsMenuOpen(prev => ({
+      newCars: false,
+      usedCars: false,
+      services: false,
+      finance: false,
+      [menu]: !prev[menu],
+    }));
   };
 
   const nextImage = () => {
