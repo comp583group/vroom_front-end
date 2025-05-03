@@ -41,8 +41,14 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchLeads = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/leads/`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/leads/`, {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('access')}`,
+            },
+          });
         const data = await res.json();
+        
+        console.log('LEADS RESPONSE:', data);
         const formatted = data.map((lead: LeadApiResponse) => ({
           name: lead.name,
           inquiry: lead.message || `Interested in ${lead.vehicle_interest?.brand} ${lead.vehicle_interest?.model}`,

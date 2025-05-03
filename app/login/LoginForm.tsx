@@ -3,52 +3,78 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'; // Import useRouter
+//import { useRouter } from 'next/navigation'; // Import useRouter
+
+import { useAuth } from '@/components/auth/AuthContext'; //useRouter is in this comp
 
 export default function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter(); // Initialize the router
+ // const router = useRouter(); // Initialize the router
+  const { login } = useAuth();
 
+  /*
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+   try {
+    await login(username, password); // This sets tokens & auth context
+  } catch (err) {
+    console.error(err);
+    setError('Login failed. Check your credentials.');
+  }     
 
-    if (!username || !password) {
-      setError("Email and Password are required.");
-      return;
-    }
+
+      console.log("Login form submitted");
 
     try {
+      console.log("Sending request to:", `${process.env.NEXT_PUBLIC_API_URL}/api/token/`);
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/token/`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username, // match Django's auth fields
-          password: password,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
       });
 
+      console.log("Fetch returned response:", response);
+      console.log("Response status:", response.status);
+
       if (!response.ok) {
+        const err = await response.json();
+        console.error("Error response:", err);
         throw new Error("Invalid credentials");
       }
 
       const data = await response.json();
+      console.log("JWT received:", data);
 
-      // Store JWT access token in localStorage (or cookie later)
       localStorage.setItem("accessToken", data.access);
       localStorage.setItem("refreshToken", data.refresh);
 
-      // Redirect to dashboard
-      router.push("/crm/dashboard");
+      console.log("Redirecting to dashboard...");
+      //router.replace("/crm/dashboard"); // not redirecting
+
+      setTimeout(() => {
+  router.replace('/crm/dashboard');
+}, 1000);
+
     } catch (err) {
-      console.error(err);
+      console.error("Login error caught:", err);
       setError("Login failed. Check your credentials.");
     }
+
   };
+  */
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await login(username, password); // This sets tokens & auth context
+    } catch (err) {
+      console.error(err);
+      setError('Login failed. Check your credentials.');
+    }
+  };
+
 
 
   return (
