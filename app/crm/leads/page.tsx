@@ -30,20 +30,34 @@ export default function LeadsPage() {
   useEffect(() => {
     const fetchLeads = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/leads/`);
-        const data = await res.json();
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/leads/`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+            'Content-Type': 'application/json',
+          },
+        });
 
-        // Map API response to Lead[]
+        if (!res.ok) {
+          const error = await res.json();
+          throw new Error(`API returned ${res.status}: ${error.detail || 'Unknown error'}`);
+        }
+
+        const data = await res.json();
+        if (!Array.isArray(data)) {
+          throw new Error("API returned malformed data: expected results[] array.");
+        }
+
         const formattedLeads = data.map((lead: LeadApiResponse) => ({
           id: lead.id,
           name: lead.name,
           email: lead.email,
           vehicle: `${lead.vehicle_interest.year} ${lead.vehicle_interest.brand} ${lead.vehicle_interest.model}`,
-          status: capitalize(lead.status),
+          status: capitalize(lead.status) as Lead['status'], // 👈 cast to match union type
           message: lead.message,
           date: lead.created_at.split('T')[0],
           assignedTo: lead.assigned_to || null,
         }));
+
 
         setLeads(formattedLeads);
       } catch (error) {

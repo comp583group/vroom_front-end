@@ -7,7 +7,7 @@ export type Lead = {
   name: string;
   email: string;
   vehicle: string;
-  status: 'Open' | 'In Progress' | 'Contacted';
+  status: 'open' | 'in_progress' | 'contacted';
   message: string;
   date: string;
   assignedTo: string | null;
@@ -15,9 +15,9 @@ export type Lead = {
 
 export function LeadTable({ leads }: { leads: Lead[] }) {
   const statusColors = {
-    Open: 'bg-blue-100 text-blue-800',
-    'In Progress': 'bg-yellow-100 text-yellow-800',
-    Contacted: 'bg-green-100 text-green-800',
+    open: 'bg-blue-100 text-blue-800',
+    in_progress: 'bg-yellow-100 text-yellow-800',
+    contacted: 'bg-green-100 text-green-800',
   };
 
   const [expandedLead, setExpandedLead] = useState<number | null>(null);
@@ -50,7 +50,7 @@ export function LeadTable({ leads }: { leads: Lead[] }) {
               <td className="px-6 py-4 whitespace-nowrap text-black">{lead.vehicle}</td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <span
-                  className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[lead.status]}`}
+                  className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[lead.status]}`} //removing $ {statusColors[lead.status]}
                 >
                   {lead.status}
                 </span>
