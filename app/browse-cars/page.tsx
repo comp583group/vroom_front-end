@@ -112,6 +112,37 @@ export default function BrowseCars() {
     { name: "Hybrids", image: "/api/placeholder/120/80" },
   ];*/
 
+  const [phone, setPhone] = useState('');
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  // TO BE TESTED
+  const handleLeadSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!selectedCar) return;
+
+    try {
+      const response = await fetch("http://localhost:8000/api/leads/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          phone_number: phone,
+          car: selectedCar.id, // TBH!!!! 
+        }),
+      });
+
+      if (!response.ok) throw new Error("Failed to send lead");
+
+      setSubmitSuccess(true);
+      setPhone('');
+    } catch (err) {
+      console.error("Lead submission failed:", err);
+    }
+  };
+
+
   // Load car data
   useEffect(() => {
   const fetchCars = async () => {
@@ -269,7 +300,7 @@ export default function BrowseCars() {
                 />
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="text-black grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                   <h3 className="text-xl font-semibold mb-2">Car Details</h3>
                   <div className="space-y-2">
@@ -293,20 +324,32 @@ export default function BrowseCars() {
                     ))}
                   </ul>
                   
-                  <div className="mt-8">
-                    <h3 className="text-xl font-semibold mb-2">Interested?</h3>
-                    <div className="flex flex-wrap gap-3 mt-4">
-                      <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors">
-                        Schedule Test Drive
+                  <div className="mt-8 border-t pt-6">
+                    <h3 className="text-xl font-semibold mb-4">Interested in this car?</h3>
+                    <form
+                      onSubmit={handleLeadSubmit}
+                      className="space-y-4"
+                    >
+                      <input
+                        type="tel"
+                        placeholder="Your Phone Number"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        required
+                        className="w-full border border-gray-300 rounded px-4 py-2"
+                      />
+                      <button
+                        type="submit"
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded w-full"
+                      >
+                        Send Interest to Dealer
                       </button>
-                      <button className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg transition-colors">
-                        Get Price Quote
-                      </button>
-                      <button className="border border-gray-300 hover:bg-gray-100 text-gray-800 font-medium py-2 px-6 rounded-lg transition-colors">
-                        Contact Dealer
-                      </button>
-                    </div>
+                      {submitSuccess && (
+                        <p className="text-green-600 text-sm mt-2">Your interest has been sent!</p>
+                      )}
+                    </form>
                   </div>
+
                 </div>
               </div>
             </div>
