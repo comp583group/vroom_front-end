@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 //import Dropdown from '../components/Dropdown'; // not being read
 import Navbar from '@/components/nav/NavigationBar';
 import CarListing from "@/components/cars/CarListing";
+import FilterSidebar from "@/components/cars/FilterSidebar";
+
 
 
 // Define car interface
@@ -323,6 +325,20 @@ export default function BrowseCars() {
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Filter sidebar - Desktop */}
             <div className="hidden lg:block w-64 flex-shrink-0">
+              <FilterSidebar
+                filters={filters}
+                onCheckboxFilter={handleCheckboxFilter}
+                onRangeChange={handleRangeChange}
+                onReset={resetFilters}
+                allBrands={allBrands}
+                allBodyTypes={allBodyTypes}
+                allFuelTypes={allFuelTypes}
+                allTransmissions={allTransmissions}
+                formatPrice={formatPrice}
+              />
+            </div>
+            {/*
+            <div className="hidden lg:block w-64 flex-shrink-0">
               <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-lg font-semibold">Filters</h2>
@@ -334,7 +350,6 @@ export default function BrowseCars() {
                   </button>
                 </div>
 
-                {/* Price Range */}
                 <div className="mb-6">
                   <h3 className="font-medium mb-3">Price Range</h3>
                   <div className="flex justify-between mb-2">
@@ -352,7 +367,6 @@ export default function BrowseCars() {
                   />
                 </div>
 
-                {/* Year Range */}
                 <div className="mb-6">
                   <h3 className="font-medium mb-3">Year Range</h3>
                   <div className="flex justify-between mb-2">
@@ -379,7 +393,6 @@ export default function BrowseCars() {
                   </div>
                 </div>
 
-                {/* Brand Filter */}
                 <div className="mb-6">
                   <h3 className="font-medium mb-3">Brand</h3>
                   <div className="space-y-2 max-h-48 overflow-y-auto">
@@ -400,7 +413,6 @@ export default function BrowseCars() {
                   </div>
                 </div>
 
-                {/* Body Type Filter */}
                 <div className="mb-6">
                   <h3 className="font-medium mb-3">Body Type</h3>
                   <div className="space-y-2">
@@ -421,7 +433,6 @@ export default function BrowseCars() {
                   </div>
                 </div>
 
-                {/* Fuel Type Filter */}
                 <div className="mb-6">
                   <h3 className="font-medium mb-3">Fuel Type</h3>
                   <div className="space-y-2">
@@ -442,7 +453,6 @@ export default function BrowseCars() {
                   </div>
                 </div>
 
-                {/* Transmission Filter */}
                 <div className="mb-6">
                   <h3 className="font-medium mb-3">Transmission</h3>
                   <div className="space-y-2">
@@ -464,6 +474,7 @@ export default function BrowseCars() {
                 </div>
               </div>
             </div>
+            */}
 
             {/* Mobile Filter Button */}
             <div className="lg:hidden mb-4">
@@ -711,17 +722,17 @@ export default function BrowseCars() {
               </div>
 
               {/* Car Grid */}
-{filteredCars.length > 0 ? (
-  <CarListing
-    cars={filteredCars}
-    onViewDetails={handleViewCarDetails}
-    formatPrice={formatPrice}
-  />
-) : (
-  <div className="bg-white rounded-lg shadow-md p-8 text-center">
-    {/* ...no cars message... */}
-  </div>
-)}              
+              {filteredCars.length > 0 ? (
+                <CarListing
+                  cars={filteredCars}
+                  onViewDetails={handleViewCarDetails}
+                  formatPrice={formatPrice}
+                />
+              ) : (
+                <div className="bg-white rounded-lg shadow-md p-8 text-center">
+                  {/* ...no cars message... */}
+                </div>
+              )}              
               {/*
               {filteredCars.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -779,7 +790,9 @@ export default function BrowseCars() {
                 </div>
               )}
               */}
-              {/* Pagination */}
+              
+              {/*
+              {// Pagination }
               {filteredCars.length > 0 && (
                 <div className="mt-8 flex justify-center">
                   <nav className="flex items-center">
@@ -801,6 +814,8 @@ export default function BrowseCars() {
                   </nav>
                 </div>
               )}
+              */}
+
             </div>
           </div>
         </div>
