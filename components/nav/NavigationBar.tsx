@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Search } from 'lucide-react';
 
 const navLinks = [
-  { label: 'New Cars', href: '/cars' },
+  { label: 'New Cars', href: '/browse-cars' },
   { label: 'About Us', href: '/about' },
   { label: 'Contact', href: '/contact' },
   { label: 'Login', href: '/login' },
@@ -22,7 +22,7 @@ export default function Navbar() {
           <div className="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm">
             CD
           </div>
-          <span className="text-xl font-semibold">Dealership</span>
+          <span className="text-xl font-semibold">Carvantage</span>
         </div>
 
         {/* Nav Links */}

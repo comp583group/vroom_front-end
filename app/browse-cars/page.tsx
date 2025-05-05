@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 //import Dropdown from '../components/Dropdown'; // not being read
 import Navbar from '@/components/nav/NavigationBar';
+import CarListing from "@/components/cars/CarListing";
+
 
 // Define car interface
 interface Car {
@@ -709,6 +711,18 @@ export default function BrowseCars() {
               </div>
 
               {/* Car Grid */}
+{filteredCars.length > 0 ? (
+  <CarListing
+    cars={filteredCars}
+    onViewDetails={handleViewCarDetails}
+    formatPrice={formatPrice}
+  />
+) : (
+  <div className="bg-white rounded-lg shadow-md p-8 text-center">
+    {/* ...no cars message... */}
+  </div>
+)}              
+              {/*
               {filteredCars.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredCars.map((car) => (
@@ -764,7 +778,7 @@ export default function BrowseCars() {
                   </button>
                 </div>
               )}
-
+              */}
               {/* Pagination */}
               {filteredCars.length > 0 && (
                 <div className="mt-8 flex justify-center">
