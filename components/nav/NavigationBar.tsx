@@ -11,6 +11,8 @@ const navLinks = [
   { label: 'Login', href: '/login' },
 ];
 
+// NEED MOBILE VIEW!!! have a burger menu
+
 export default function Navbar() {
   const pathname = usePathname();
 

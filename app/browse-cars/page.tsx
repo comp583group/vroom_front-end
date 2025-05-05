@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import Navbar from '@/components/nav/NavigationBar';
 import CarListing from "@/components/cars/CarListing";
 import FilterSidebar from "@/components/cars/FilterSidebar";
+import MobileFilterPanel from "@/components/cars/MobileFilterPanel";
 
 
 
@@ -337,144 +338,7 @@ export default function BrowseCars() {
                 formatPrice={formatPrice}
               />
             </div>
-            {/*
-            <div className="hidden lg:block w-64 flex-shrink-0">
-              <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-lg font-semibold">Filters</h2>
-                  <button 
-                    onClick={resetFilters}
-                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                  >
-                    Reset All
-                  </button>
-                </div>
 
-                <div className="mb-6">
-                  <h3 className="font-medium mb-3">Price Range</h3>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-sm text-gray-600">{formatPrice(filters.minPrice)}</span>
-                    <span className="text-sm text-gray-600">{formatPrice(filters.maxPrice)}</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="200000"
-                    step="5000"
-                    value={filters.maxPrice}
-                    onChange={(e) => handleRangeChange('maxPrice', parseInt(e.target.value))}
-                    className="w-full"
-                  />
-                </div>
-
-                <div className="mb-6">
-                  <h3 className="font-medium mb-3">Year Range</h3>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-sm text-gray-600">{filters.minYear}</span>
-                    <span className="text-sm text-gray-600">{filters.maxYear}</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <input
-                      type="range"
-                      min="2015"
-                      max="2025"
-                      value={filters.minYear}
-                      onChange={(e) => handleRangeChange('minYear', parseInt(e.target.value))}
-                      className="w-full"
-                    />
-                    <input
-                      type="range"
-                      min="2015"
-                      max="2025"
-                      value={filters.maxYear}
-                      onChange={(e) => handleRangeChange('maxYear', parseInt(e.target.value))}
-                      className="w-full"
-                    />
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <h3 className="font-medium mb-3">Brand</h3>
-                  <div className="space-y-2 max-h-48 overflow-y-auto">
-                    {allBrands.map(brand => (
-                      <div key={brand} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id={`brand-${brand}`}
-                          checked={filters.brands.includes(brand)}
-                          onChange={() => handleCheckboxFilter('brands', brand)}
-                          className="h-4 w-4 text-blue-600 rounded"
-                        />
-                        <label htmlFor={`brand-${brand}`} className="ml-2 text-sm text-gray-700">
-                          {brand}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <h3 className="font-medium mb-3">Body Type</h3>
-                  <div className="space-y-2">
-                    {allBodyTypes.map(type => (
-                      <div key={type} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id={`body-${type}`}
-                          checked={filters.bodyTypes.includes(type)}
-                          onChange={() => handleCheckboxFilter('bodyTypes', type)}
-                          className="h-4 w-4 text-blue-600 rounded"
-                        />
-                        <label htmlFor={`body-${type}`} className="ml-2 text-sm text-gray-700">
-                          {type}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <h3 className="font-medium mb-3">Fuel Type</h3>
-                  <div className="space-y-2">
-                    {allFuelTypes.map(type => (
-                      <div key={type} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id={`fuel-${type}`}
-                          checked={filters.fuelTypes.includes(type)}
-                          onChange={() => handleCheckboxFilter('fuelTypes', type)}
-                          className="h-4 w-4 text-blue-600 rounded"
-                        />
-                        <label htmlFor={`fuel-${type}`} className="ml-2 text-sm text-gray-700">
-                          {type}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <h3 className="font-medium mb-3">Transmission</h3>
-                  <div className="space-y-2">
-                    {allTransmissions.map(type => (
-                      <div key={type} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id={`transmission-${type}`}
-                          checked={filters.transmissions.includes(type)}
-                          onChange={() => handleCheckboxFilter('transmissions', type)}
-                          className="h-4 w-4 text-blue-600 rounded"
-                        />
-                        <label htmlFor={`transmission-${type}`} className="ml-2 text-sm text-gray-700">
-                          {type}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-            */}
 
             {/* Mobile Filter Button */}
             <div className="lg:hidden mb-4">
@@ -490,6 +354,19 @@ export default function BrowseCars() {
             </div>
 
             {/* Mobile Filter Panel */}
+            <MobileFilterPanel
+              isOpen={isFilterOpen}
+              filters={filters}
+              allBrands={allBrands}
+              allBodyTypes={allBodyTypes}
+              allFuelTypes={allFuelTypes}
+              allTransmissions={allTransmissions}
+              onCheckboxFilter={handleCheckboxFilter}
+              onRangeChange={handleRangeChange}
+              onReset={resetFilters}
+              formatPrice={formatPrice}
+            />
+            {/*
             {isFilterOpen && (
               <div className="lg:hidden bg-white rounded-lg shadow-md p-6 mb-6">
                 <div className="flex justify-between items-center mb-6">
@@ -502,7 +379,6 @@ export default function BrowseCars() {
                   </button>
                 </div>
 
-                {/* Price Range */}
                 <div className="mb-6">
                   <h3 className="font-medium mb-3">Price Range</h3>
                   <div className="flex justify-between mb-2">
@@ -520,7 +396,6 @@ export default function BrowseCars() {
                   />
                 </div>
 
-                {/* Year Range */}
                 <div className="mb-6">
                   <h3 className="font-medium mb-3">Year Range</h3>
                   <div className="flex justify-between mb-2">
@@ -547,9 +422,7 @@ export default function BrowseCars() {
                   </div>
                 </div>
 
-                {/* Simple Filter Groups for Mobile */}
                 <div className="grid grid-cols-2 gap-4">
-                  {/* Brand Filter */}
                   <div className="mb-6">
                     <h3 className="font-medium mb-3">Brand</h3>
                     <select 
@@ -572,7 +445,6 @@ export default function BrowseCars() {
                     </select>
                   </div>
 
-                  {/* Body Type Filter */}
                   <div className="mb-6">
                     <h3 className="font-medium mb-3">Body Type</h3>
                     <select 
@@ -595,7 +467,6 @@ export default function BrowseCars() {
                     </select>
                   </div>
 
-                  {/* Fuel Type Filter */}
                   <div className="mb-6">
                     <h3 className="font-medium mb-3">Fuel Type</h3>
                     <select 
@@ -618,7 +489,6 @@ export default function BrowseCars() {
                     </select>
                   </div>
 
-                  {/* Transmission Filter */}
                   <div className="mb-6">
                     <h3 className="font-medium mb-3">Transmission</h3>
                     <select 
@@ -642,7 +512,6 @@ export default function BrowseCars() {
                   </div>
                 </div>
 
-                {/* Selected Filters */}
                 <div className="mt-4">
                   <h3 className="font-medium mb-2">Selected Filters:</h3>
                   <div className="flex flex-wrap gap-2">
@@ -694,6 +563,7 @@ export default function BrowseCars() {
                 </div>
               </div>
             )}
+              */}
 
             {/* Main Content */}
             <div className="flex-grow">
