@@ -6,7 +6,7 @@ import { Search } from 'lucide-react';
 
 const navLinks = [
   { label: 'New Cars', href: '/browse-cars' },
-  { label: 'About Us', href: '/about' },
+  { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
   { label: 'Login', href: '/login' },
 ];
