@@ -2,15 +2,18 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import Link from 'next/link';
+//import Link from 'next/link';
+import Navbar from '@/components/nav/NavigationBar';
+import Link from "next/link";
 
 export default function CarListing() {
+  /*
   const [isMenuOpen, setIsMenuOpen] = useState({
     newCars: false,
     usedCars: false,
     services: false,
     finance: false,
-  });
+  });*/
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
@@ -33,6 +36,7 @@ export default function CarListing() {
     "Backup Camera"
   ];
 
+  /*
   const toggleMenu = (menu: keyof typeof isMenuOpen) => {
     setIsMenuOpen(prev => ({
       newCars: false,
@@ -42,6 +46,7 @@ export default function CarListing() {
       [menu]: !prev[menu],
     }));
   };
+  */
 
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) => 
@@ -55,110 +60,28 @@ export default function CarListing() {
     );
   };
 
-  const carCategories = [
+  /*
+ const carCategories = [
     { name: "Sedans", image: "/api/placeholder/120/80" },
     { name: "SUVs", image: "/api/placeholder/120/80" },
     { name: "Trucks", image: "/api/placeholder/120/80" },
     { name: "Sports Cars", image: "/api/placeholder/120/80" },
     { name: "Electric", image: "/api/placeholder/120/80" },
     { name: "Hybrids", image: "/api/placeholder/120/80" },
-  ];
+  ];*/
 
   return (
     <div className="flex flex-col min-h-screen font-[family-name:var(--font-geist-sans)]">
       {/* Navigation Bar */}
-      <nav className="bg-gray-900 text-white sticky top-0 z-50 shadow-lg" style= {{backgroundColor: "#ff9d00"}}>
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo and Dealership Name */}
-            <Link href="/" className="flex items-center space-x-4">
-              <div className="w-12 h-12 relative">
-                <Image src="/sports-car-icon.svg" alt="Dealership Logo" fill />
-              </div>
-              <span className="font-semibold text-2xl tracking-tight">Carvantage</span>
-            </Link>
+      <Navbar />
 
-            {/* Navigation Links */}
-            <div className="hidden md:flex items-center space-x-16 ">
-              <div className="relative">
-                <button 
-                  className="flex items-center hover:text-blue-300"
-                  onClick={() => toggleMenu("newCars")}
-                >
-                  New Cars
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {isMenuOpen.newCars && (
-                  <div className="absolute left-0 mt-2 w-96 bg-white rounded-md shadow-xl z-50">
-                    <div className="p-4">
-                      <h3 className="text-gray-800 font-medium mb-2">Browse by Category</h3>
-                      <div className="grid grid-cols-3 gap-3">
-                        {carCategories.map((category) => (
-                          <a 
-                            key={category.name}
-                            href="#" 
-                            className="flex flex-col items-center p-2 rounded hover:bg-gray-100 transition-colors text-gray-800"
-                          >
-                            <div className="w-24 h-16 bg-gray-200 rounded mb-2 overflow-hidden">
-                              <Image
-                                src={category.image}
-                                alt={category.name}
-                                width={120}
-                                height={80}
-                                className="object-cover"
-                              />
-                            </div>
-                            <span className="text-sm">{category.name}</span>
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <a href="#" className="hover:text-blue-300">About Us</a>
-              <a href="/interest-form" className="hover:text-blue-300">Contact Us</a>
-              {/* Login Button */}
-              <a href="/login" className="hover:text-blue-300">Login</a>
-
-            </div>
-
-            {/* Search Bar */}
-            <div className="hidden md:block">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search inventory..."
-                  className="bg-white text-black rounded-full py-1 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500 w-92 h-10"
-                />
-                <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden">
-              <button className="text-gray-400 hover:text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
 
       {/* Breadcrumb */}
       <div className="bg-gray-100 py-3">
         <div className="container mx-auto px-4">
           <div className="flex items-center space-x-2 text-sm">
-            <a href="/" className="text-blue-600 hover:underline">Home</a>
+            {/*</div><a href="/" className="text-blue-600 hover:underline">Home</a>*/}
+            <Link href="/" className="text-blue-600 hover:underline">Home</Link>
             <span className="text-gray-500">/</span>
             <a href="/browse-cars" className="text-blue-600 hover:underline">Inventory</a>
             <span className="text-gray-500">/</span>
@@ -341,7 +264,7 @@ export default function CarListing() {
         <div className="mt-12">
           <h2 className="text-2xl font-bold mb-4">Vehicle Description</h2>
           <div className="prose max-w-none">
-            <p>This 2023 Subaru Forester Premium AWD is a versatile and capable crossover SUV that combines comfort, technology, and Subaru's renowned all-wheel drive system. With only 4,875 miles, this Certified Pre-Owned vehicle offers exceptional value with the reliability of a nearly new car.</p>
+            <p>This 2023 Subaru Forester Premium AWD is a versatile and capable crossover SUV that combines comfort, technology, and Subaru renowned all-wheel drive system. With only 4,875 miles, this Certified Pre-Owned vehicle offers exceptional value with the reliability of a nearly new car.</p>
             <p className="mt-4">The Crystal White Pearl exterior paired with Black interior creates a timeless and sophisticated appearance. The Premium trim level includes numerous comfort and convenience features that make every drive enjoyable, including heated front seats, power moonroof, and the latest Subaru STARLINK infotainment system.</p>
             <p className="mt-4">Powered by a fuel-efficient 2.5L horizontally-opposed BOXER engine delivering a perfect balance of power and efficiency, this Forester is ideal for both daily commuting and weekend adventures. The Continuously Variable Transmission (CVT) provides smooth acceleration and excellent fuel economy.</p>
           </div>
