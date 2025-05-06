@@ -78,7 +78,7 @@ export default function Home() {
       {/* Featured Categories */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Find Your Perfect Match</h2>
+          <h2 className="text-black text-3xl font-bold text-center mb-12">Find Your Perfect Match</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-gray-100 rounded-lg overflow-hidden shadow-md transition-transform hover:scale-105">
               <div className="h-48 relative">
@@ -90,7 +90,7 @@ export default function Home() {
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">New Inventory</h3>
+                <h3 className="text-black text-xl font-semibold mb-2">New Inventory</h3>
                 <p className="text-gray-600 mb-4">Explore our latest models with cutting-edge features and technology.</p>
                 <a href="/browse-cars" className="text-blue-600 font-medium hover:underline">View All New Cars →</a>
               </div>
@@ -122,7 +122,7 @@ export default function Home() {
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">Special Offers</h3>
+                <h3 className="text-black text-xl font-semibold mb-2">Special Offers</h3>
                 <p className="text-gray-600 mb-4">Discover current deals, incentives and financing options.</p>
                 <a href="#" className="text-blue-600 font-medium hover:underline">See Current Specials →</a>
               </div>

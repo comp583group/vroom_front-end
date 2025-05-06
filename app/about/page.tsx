@@ -4,10 +4,10 @@ import Footer from "@/components/nav/Footer";
 
 export default function AboutPage() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="bg-white flex flex-col min-h-screen">
       <Navbar />
 
-      <main className="flex-grow container mx-auto px-4 py-16">
+      <main className="text-black flex-grow container mx-auto px-4 py-16">
         <section className="mb-12">
           <h1 className="text-4xl font-bold mb-4">About Us</h1>
           <p className="text-gray-700 text-lg">

@@ -113,7 +113,7 @@ export default function MobileFilterPanel({
       </div>
 
       {/* Dynamic Selects */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="text-gray-600 grid grid-cols-2 gap-4">
         {renderSelect("Brand", allBrands, "brands")}
         {renderSelect("Body Type", allBodyTypes, "bodyTypes")}
         {renderSelect("Fuel Type", allFuelTypes, "fuelTypes")}

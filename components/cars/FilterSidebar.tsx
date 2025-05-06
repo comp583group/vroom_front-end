@@ -47,7 +47,7 @@ export default function FilterSidebar({
   return (
     <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-lg font-semibold">Filters</h2>
+        <h2 className="text-black text-lg font-semibold">Filters</h2>
         <button
           onClick={onReset}
           className="text-blue-600 hover:text-blue-800 text-sm font-medium"
@@ -58,7 +58,7 @@ export default function FilterSidebar({
 
       {/* Price Range */}
       <div className="mb-6">
-        <h3 className="font-medium mb-3">Price Range</h3>
+        <h3 className="text-black font-medium mb-3">Price Range</h3>
         <div className="flex justify-between mb-2">
           <span className="text-sm text-gray-600">{formatPrice(filters.minPrice)}</span>
           <span className="text-sm text-gray-600">{formatPrice(filters.maxPrice)}</span>
@@ -76,7 +76,7 @@ export default function FilterSidebar({
 
       {/* Year Range */}
       <div className="mb-6">
-        <h3 className="font-medium mb-3">Year Range</h3>
+        <h3 className="text-black font-medium mb-3">Year Range</h3>
         <div className="flex justify-between mb-2">
           <span className="text-sm text-gray-600">Min: {filters.minYear}</span>
           <span className="text-sm text-gray-600">Max: {filters.maxYear}</span>
@@ -104,7 +104,7 @@ export default function FilterSidebar({
       {/* Dynamic Checkbox Groups */}
       {checkboxGroups.map((group) => (
         <div key={group.key} className="mb-6">
-          <h3 className="font-medium mb-3">{group.label}</h3>
+          <h3 className="text-black font-medium mb-3">{group.label}</h3>
           <div className="space-y-2 max-h-48 overflow-y-auto">
             {group.options.map((option: string) => (
               <div key={option} className="flex items-center">

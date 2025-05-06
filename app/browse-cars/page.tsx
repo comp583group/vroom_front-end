@@ -363,7 +363,7 @@ export default function BrowseCars() {
         <div className="container mx-auto px-4 py-8">
           {/* Page header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2">Browse Our Inventory</h1>
+            <h1 className="text-black text-3xl font-bold mb-2">Browse Our Inventory</h1>
             <p className="text-gray-600">Find your perfect vehicle from our extensive collection.</p>
           </div>
 
