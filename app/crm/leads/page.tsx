@@ -47,16 +47,22 @@ export default function LeadsPage() {
           throw new Error("API returned malformed data: expected results[] array.");
         }
 
-        const formattedLeads = data.map((lead: LeadApiResponse) => ({
-          id: lead.id,
-          name: lead.name,
-          email: lead.email,
-          vehicle: `${lead.vehicle_interest.year} ${lead.vehicle_interest.brand} ${lead.vehicle_interest.model}`,
-          status: capitalize(lead.status) as Lead['status'], // 👈 cast to match union type
-          message: lead.message,
-          date: lead.created_at.split('T')[0],
-          assignedTo: lead.assigned_to || null,
-        }));
+          const formattedLeads = data.map((lead: LeadApiResponse) => {
+            const vehicleInfo = lead.vehicle_interest
+              ? `${lead.vehicle_interest.year} ${lead.vehicle_interest.brand} ${lead.vehicle_interest.model}`
+              : 'No vehicle selected';
+
+            return {
+              id: lead.id,
+              name: lead.name,
+              email: lead.email,
+              vehicle: vehicleInfo,
+              status: capitalize(lead.status) as Lead['status'], 
+              message: lead.message,
+              date: lead.created_at.split('T')[0],
+              assignedTo: lead.assigned_to || null,
+            };
+          });
 
 
         setLeads(formattedLeads);

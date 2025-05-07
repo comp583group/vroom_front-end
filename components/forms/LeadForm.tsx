@@ -62,7 +62,7 @@ export default function LeadForm({ vehicleId, onSuccess }: LeadFormProps) {
         value={formData.name}
         onChange={handleChange}
         required
-        className="w-full px-4 py-2 border rounded-md"
+        className="text-black w-full px-4 py-2 border rounded-md border-gray-500"
       />
 
       <input
@@ -72,7 +72,7 @@ export default function LeadForm({ vehicleId, onSuccess }: LeadFormProps) {
         value={formData.email}
         onChange={handleChange}
         required
-        className="w-full px-4 py-2 border rounded-md"
+        className="text-black w-full px-4 py-2 border rounded-md border-gray-500"
       />
 
       <input
@@ -82,7 +82,7 @@ export default function LeadForm({ vehicleId, onSuccess }: LeadFormProps) {
         value={formData.phone_number}
         onChange={handleChange}
         required
-        className="w-full px-4 py-2 border rounded-md"
+        className="text-black w-full px-4 py-2 border rounded-md border-gray-500"
       />
 
       <textarea
@@ -91,7 +91,7 @@ export default function LeadForm({ vehicleId, onSuccess }: LeadFormProps) {
         value={formData.message}
         onChange={handleChange}
         rows={4}
-        className="w-full px-4 py-2 border rounded-md"
+        className="text-black w-full px-4 py-2 border rounded-md border-gray-500"
       ></textarea>
 
       {error && <p className="text-red-600 text-sm">{error}</p>}
