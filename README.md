@@ -1,133 +1,96 @@
-🚀 Next.js TypeScript Project with Docker
+# 🚗 Carvantage Frontend (Next.js)
 
-📦 Setup Instructions
+Welcome to the frontend of **Carvantage**, a modern car dealership platform built with **Next.js 14 (App Router)** and **TypeScript**.
 
-1️⃣ Clone the Repository
+This app connects to a Django + DRF backend and allows users to:
+- Browse cars with filters and sorting
+- View detailed car modals
+- Submit lead forms (from contact page or car modal)
+- CRM staff can login to manage inventory and leads (coming soon)
 
-git clone <your-github-repo-url>
-cd 380_front-end
+---
 
-2️⃣ Run the Project with Docker
+## 🧰 Tech Stack
 
-docker-compose up --build
+- **Next.js 14** (App Router)
+- **TypeScript**
+- **Tailwind CSS**
+- **Lucide-react** for icons
+- **Fetch API** for RESTful backend integration
+- **Dockerized** (works with Docker Compose backend)
 
-This will:
+---
 
-Build the Docker container
+## ⚙️ Getting Started (Docker)
 
-Install dependencies inside the container
+### 1. Clone the Repo
 
-Start the Next.js development server on http://localhost:3000
+```bash
+git clone https://github.com/comp583group/vroom_front-end.git
+cd carvantage-frontend
+```
 
-3️⃣ Making Changes (Hot Reloading)
-
-Edit files in pages/ or components/
-
-Changes should reflect automatically 🎉
-
-4️⃣ Stopping the Server
-
-To stop the container:
-
-docker-compose down
-
-🛠 Useful Commands
-
-Command
-
-Description
-
-docker-compose up
-
-Start the server 🚀
-
-docker-compose up --build
-
-Rebuild and start server 🔄
-
-docker-compose down
-
-Stop the server ❌
-
-✅ Requirements
-
-Docker installed (https://www.docker.com/)
-
-Node.js (for local dev without Docker, optional)
-
-📢 Notes
-
-The container ensures that all dependencies are the same across all teammates.
-
-The Next.js app will be accessible at http://localhost:3000
-
-If you run into issues, try docker-compose down && docker-compose up --build. 
-
-
-Instructions to run VSCode in Docker Environment 
-
-Install VSCode Extensions: Docker and Dev Containers 
-
-Step 0: Run your docker container in a terminal 
-
-Step 1: Open Dev Containers in VS Code
-
-    Open the Command Palette:
-        Press Cmd + Shift + P (Mac) or Ctrl + Shift + P (Windows/Linux).
-
-    Search for and Select:
-        "Dev Containers: Attach to Running Container"
-
-    Pick Your Container:
-        Select your running container from the list.
-
-Step 2: Verify You’re Inside the Container
-
-Once VS Code reopens inside the container:
-
-    Open a terminal in VS Code (Ctrl + ~ or Cmd + ~ on Mac).
-    Run:
-
-    node -v
-
-    npm list typescript
-
-    If Node.js and TypeScript are installed inside the container, you should see their versions.
-
-Step 3: Open Your Project Folder Inside the Container
-
-If your project folder is not opened automatically:
-
-    Click File > Open Folder in VS Code.
-    Navigate to /workspace/ or another mounted directory where your code is stored inside the container.
-    Open the correct folder.
-
-On the bottom left you should see an indicator that you're inside a docker container now. 
-Now navigate to the project's repo (/app)  
-
-Using Git inside the Container 
-
-Using Local Git with a Dockerized Project
-
-You don’t necessarily have to set up Git inside the Docker container if you don't need to push changes directly from within it. The basic idea is:
-
-    Edit files inside the container (using VS Code or the terminal).
-    Exit the container and return to your local environment.
-    Use your local Git (since your code is still on your local machine) to commit, push, and pull from repositories.
-
-This method assumes your project files are mounted to a shared volume between your local machine and the Docker container, so any changes made inside the container are reflected on your local file system.
-
-
-
-## Update 4/30/2025 -> For replication (changes made for API testing)
-1. Fetch current changes
-
-2. Start backend
-
-3. Create `.env.local` in root folder of front-end
+### 2. Create `.env.local`
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
 
-4. Test front-end 
+Update this URL if your backend container is running on a different port or remote server.
+
+### 3. Start Frontend (Docker Dev Mode)
+
+```bash
+docker compose up frontend
+```
+
+If you're running both frontend and backend:
+
+```bash
+docker compose up --build
+```
+
+You should now be able to visit the app at:
+
+📍 [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 🗂️ Project Structure
+
+```
+/app
+  /browse-cars     → Inventory browsing with filters
+  /crm             → CRM dashboard (JWT-protected)
+  /contact         → Contact form
+  /about           → About us
+/components
+  /cars            → Listing, filters, modal views
+  /crm             → Lead table, filters
+  /forms           → LeadForm (used in modals and contact)
+  /layout          → Footer component
+  /nav             → NavigationBar (responsive)
+/public            → Static assets
+/styles            → Tailwind or global styles
+```
+
+---
+
+## ✨ Features
+
+- ✅ Mobile-first, responsive UI
+- ✅ Filter & sort inventory
+- ✅ Car detail modal with interest form
+- ✅ Contact form lead submission
+- ✅ CRM internal tools (login required)
+- ✅ Fully Dockerized frontend
+
+---
+
+## 🧪 Dev Notes
+
+- Use `NEXT_PUBLIC_API_URL` for all API fetches.
+- To test form submission, ensure backend CORS allows `http://localhost:3000`
+- All public lead forms use `POST /api/leads/` endpoint (unauthenticated)
+
+---
