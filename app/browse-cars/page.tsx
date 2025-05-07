@@ -8,6 +8,7 @@ import CarListing from "@/components/cars/CarListing";
 import FilterSidebar from "@/components/cars/FilterSidebar";
 import MobileFilterPanel from "@/components/cars/MobileFilterPanel";
 import Footer from "@/components/nav/Footer";
+import LeadForm from "@/components/forms/LeadForm";
 
 
 
@@ -113,7 +114,8 @@ export default function BrowseCars() {
     { name: "Hybrids", image: "/api/placeholder/120/80" },
   ];*/
 
-  const [phone, setPhone] = useState('');
+  //const [phone, setPhone] = useState('');
+  /*
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
   // TO BE TESTED
@@ -142,7 +144,7 @@ export default function BrowseCars() {
       console.error("Lead submission failed:", err);
     }
   };
-
+*/
 
   // Load car data
   useEffect(() => {
@@ -327,28 +329,7 @@ export default function BrowseCars() {
                   
                   <div className="mt-8 border-t pt-6">
                     <h3 className="text-xl font-semibold mb-4">Interested in this car?</h3>
-                    <form
-                      onSubmit={handleLeadSubmit}
-                      className="space-y-4"
-                    >
-                      <input
-                        type="tel"
-                        placeholder="Your Phone Number"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        required
-                        className="w-full border border-gray-300 rounded px-4 py-2"
-                      />
-                      <button
-                        type="submit"
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded w-full"
-                      >
-                        Send Interest to Dealer
-                      </button>
-                      {submitSuccess && (
-                        <p className="text-green-600 text-sm mt-2">Your interest has been sent!</p>
-                      )}
-                    </form>
+                      <LeadForm vehicleId={selectedCar.id} onSuccess={() => { alert("Your interest has been sent! We'll be in touch soon.");}}/>
                   </div>
 
                 </div>

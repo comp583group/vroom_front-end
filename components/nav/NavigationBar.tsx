@@ -35,7 +35,7 @@ export default function Navbar() {
             <Link
               key={href}
               href={href}
-              className={`hover:underline ${pathname === href ? 'font-bold underline-offset-4' : ''}`}
+              className={`hover:underline ${pathname === href ? 'font-bold underline' : ''}`}
             >
               {label}
             </Link>
