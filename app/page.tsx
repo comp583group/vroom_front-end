@@ -10,38 +10,7 @@ import Link from "next/link";
 
 
 export default function Home() {
-  /* const [isMenuOpen, setIsMenuOpen] = useState({
-    newCars: false,
-    usedCars: false,
-    services: false,
-    finance: false,
-  });
-  
 
-  const toggleMenu = (menu: keyof typeof isMenuOpen) => {
-    setIsMenuOpen((prev) => ({
-      newCars: false,
-      usedCars: false,
-      services: false,
-      finance: false,
-      [menu]: !prev[menu],
-    }));
-  };
-  */
-  
-
-
-
-  /*
-  const carCategories = [
-    { name: "Sedans", image: "/api/placeholder/120/80" },
-    { name: "SUVs", image: "/api/placeholder/120/80" },
-    { name: "Trucks", image: "/api/placeholder/120/80" },
-    { name: "Sports Cars", image: "/api/placeholder/120/80" },
-    { name: "Electric", image: "/api/placeholder/120/80" },
-    { name: "Hybrids", image: "/api/placeholder/120/80" },
-  ];
-  */
 
   return (
     <div className="flex flex-col min-h-screen font-[family-name:var(--font-geist-sans)]">

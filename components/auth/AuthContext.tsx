@@ -1,6 +1,4 @@
-// context/AuthContext.tsx
 
-// modularizing the auth stuff
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";

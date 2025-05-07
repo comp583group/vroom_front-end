@@ -1,11 +1,11 @@
 import SidebarNav from '@/components/crm/layout/SidebarNav';
 import TopBar from '@/components/crm/layout/TopBar';
 
-//import ProtectedRoute from '@/components/auth/ProtectedRoute';
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
 
 export default function CRMLayout({ children }: { children: React.ReactNode }) {
   return (
-    //<ProtectedRoute>
+    <ProtectedRoute>
       <div className="flex">
         <SidebarNav />
         <div className="flex-1 flex flex-col"> 
@@ -15,6 +15,6 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
           </main>
         </div>
       </div>
-    //</ProtectedRoute>
+    </ProtectedRoute>
   );
 }

@@ -14,7 +14,7 @@ export default function ProtectedRoute({ children }: Props) {
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('access'); // assuming you store JWT here
+    const token = localStorage.getItem('accessToken'); 
 
     if (!token) {
       router.push('/login');

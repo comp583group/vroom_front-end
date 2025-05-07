@@ -137,7 +137,7 @@ export default function BrowseCars() {
     }
 
     setFilteredCars(results);
-  }, [cars, filters, sortOption]);
+  }, [cars, filters, sortOption]); // tbf
 
   type ArrayFilterKeys = 'brands' | 'bodyTypes' | 'fuelTypes' | 'transmissions';
 

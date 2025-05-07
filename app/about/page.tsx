@@ -11,7 +11,7 @@ export default function AboutPage() {
         <section className="mb-12">
           <h1 className="text-4xl font-bold mb-4">About Us</h1>
           <p className="text-gray-700 text-lg">
-            At CarDealership, we are passionate about helping people find their perfect vehicle.
+            At Carvantage, we are passionate about helping people find their perfect vehicle.
             With years of experience in the automotive industry, our mission is to offer a wide range
             of high-quality cars and unmatched customer service.
           </p>
