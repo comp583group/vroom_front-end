@@ -5,7 +5,7 @@ import ProtectedRoute from '@/components/auth/ProtectedRoute';
 
 export default function CRMLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ProtectedRoute>
+    <ProtectedRoute> {/*protection - not working???? */}
       <div className="flex">
         <SidebarNav />
         <div className="flex-1 flex flex-col"> 
