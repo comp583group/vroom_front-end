@@ -6,6 +6,7 @@ import Image from "next/image";
 //import Link from 'next/link';
 import Navbar from '@/components/nav/NavigationBar';
 import Footer from "@/components/nav/Footer";
+import Link from "next/link";
 
 
 export default function Home() {
@@ -92,7 +93,7 @@ export default function Home() {
               <div className="p-6">
                 <h3 className="text-black text-xl font-semibold mb-2">New Inventory</h3>
                 <p className="text-gray-600 mb-4">Explore our latest models with cutting-edge features and technology.</p>
-                <a href="/browse-cars" className="text-blue-600 font-medium hover:underline">View All New Cars →</a>
+                <Link href="/browse-cars" className="text-blue-600 font-medium hover:underline">View All New Cars →</Link>
               </div>
             </div>
 
@@ -108,7 +109,7 @@ export default function Home() {
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-2">Pre-Owned Vehicles</h3>
                 <p className="text-gray-600 mb-4">Quality used cars inspected and certified for your peace of mind.</p>
-                <a href="#" className="text-blue-600 font-medium hover:underline">Browse Used Cars →</a>
+                <Link href="/browse-cars" className="text-blue-600 font-medium hover:underline">Browse Used Cars →</Link>
               </div>
             </div>
 
@@ -124,7 +125,7 @@ export default function Home() {
               <div className="p-6">
                 <h3 className="text-black text-xl font-semibold mb-2">Special Offers</h3>
                 <p className="text-gray-600 mb-4">Discover current deals, incentives and financing options.</p>
-                <a href="#" className="text-blue-600 font-medium hover:underline">See Current Specials →</a>
+                <Link href="/browse-cars" className="text-blue-600 font-medium hover:underline">See Current Specials →</Link>
               </div>
             </div>
           </div>
@@ -137,8 +138,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold mb-4">Ready for a Test Drive?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">Experience the thrill of driving your dream car today. Our team is ready to assist you.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="#" className="bg-white text-black hover:bg-gray-100 font-semibold py-3 px-8 rounded-full inline-block transition-colors">Schedule Test Drive</a>
-            <a href="/interest-form" className="bg-transparent border-2 border-white hover:bg-white/10 text-white font-semibold py-3 px-8 rounded-full inline-block transition-colors">Contact Us</a>
+            <Link href="/contact" className="bg-white text-black hover:bg-gray-100 font-semibold py-3 px-8 rounded-full inline-block transition-colors">Contact Us</Link>
           </div>
         </div>
       </section>

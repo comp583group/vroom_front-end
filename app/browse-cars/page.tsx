@@ -9,6 +9,7 @@ import FilterSidebar from "@/components/cars/FilterSidebar";
 import MobileFilterPanel from "@/components/cars/MobileFilterPanel";
 import Footer from "@/components/nav/Footer";
 import LeadForm from "@/components/forms/LeadForm";
+import { useSearchParams } from 'next/navigation';
 
 
 
@@ -42,16 +43,6 @@ interface FilterState {
 }
 
 export default function BrowseCars() {
-  // Navigation menu state
-  /*
-  const [isMenuOpen, setIsMenuOpen] = useState({
-    newCars: false,
-    usedCars: false,
-    services: false,
-    finance: false,
-  });
-  */
-
   // Filter panel toggle state (for mobile)
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -81,70 +72,7 @@ export default function BrowseCars() {
   const allFuelTypes = ["Gasoline", "Diesel", "Electric", "Hybrid", "Plug-in Hybrid"];
   const allTransmissions = ["Automatic", "Manual", "CVT", "Dual-Clutch"];
 
-  // Toggle nav menu
-  /*
-  const toggleMenu = (menu: keyof typeof isMenuOpen) => {
-    setIsMenuOpen((prev) => ({
-      newCars: false,
-      usedCars: false,
-      services: false,
-      finance: false,
-      [menu]: !prev[menu],
-    }));
-  };
-  */
-  
 
-  // Simple login handler
-  /*
-  const handleLogin = () => {
-    console.log("Login clicked");
-    window.location.href = "/login";
-  };
-  */
-
-  // Car categories for dropdown
-  /*
-  const carCategories = [
-    { name: "Sedans", image: "/api/placeholder/120/80" },
-    { name: "SUVs", image: "/api/placeholder/120/80" },
-    { name: "Trucks", image: "/api/placeholder/120/80" },
-    { name: "Sports Cars", image: "/api/placeholder/120/80" },
-    { name: "Electric", image: "/api/placeholder/120/80" },
-    { name: "Hybrids", image: "/api/placeholder/120/80" },
-  ];*/
-
-  //const [phone, setPhone] = useState('');
-  /*
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-
-  // TO BE TESTED
-  const handleLeadSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!selectedCar) return;
-
-    try {
-      const response = await fetch("http://localhost:8000/api/leads/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phone_number: phone,
-          car: selectedCar.id, // TBH!!!! 
-        }),
-      });
-
-      if (!response.ok) throw new Error("Failed to send lead");
-
-      setSubmitSuccess(true);
-      setPhone('');
-    } catch (err) {
-      console.error("Lead submission failed:", err);
-    }
-  };
-*/
 
   // Load car data
   useEffect(() => {
@@ -166,6 +94,9 @@ export default function BrowseCars() {
 }, []);
 
 
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get('search')?.toLowerCase() || '';
+
   // Apply filters and sorting
   useEffect(() => {
     let results = [...cars];
@@ -178,8 +109,10 @@ export default function BrowseCars() {
       const bodyTypeMatch = filters.bodyTypes.length === 0 || filters.bodyTypes.includes(car.bodyType);
       const fuelTypeMatch = filters.fuelTypes.length === 0 || filters.fuelTypes.includes(car.fuelType);
       const transmissionMatch = filters.transmissions.length === 0 || filters.transmissions.includes(car.transmission);
+
+        const searchMatch = car.name.toLowerCase().includes(searchQuery) || car.brand.toLowerCase().includes(searchQuery) || car.model.toLowerCase().includes(searchQuery);
       
-      return priceMatch && yearMatch && brandMatch && bodyTypeMatch && fuelTypeMatch && transmissionMatch;
+      return priceMatch && yearMatch && brandMatch && bodyTypeMatch && fuelTypeMatch && transmissionMatch && searchMatch;
     });
 
     // Apply sorting
@@ -391,204 +324,7 @@ export default function BrowseCars() {
               onReset={resetFilters}
               formatPrice={formatPrice}
             />
-            {/*
-            {isFilterOpen && (
-              <div className="lg:hidden bg-white rounded-lg shadow-md p-6 mb-6">
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-lg font-semibold">Filters</h2>
-                  <button 
-                    onClick={resetFilters}
-                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                  >
-                    Reset All
-                  </button>
-                </div>
 
-                <div className="mb-6">
-                  <h3 className="font-medium mb-3">Price Range</h3>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-sm text-gray-600">{formatPrice(filters.minPrice)}</span>
-                    <span className="text-sm text-gray-600">{formatPrice(filters.maxPrice)}</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="200000"
-                    step="5000"
-                    value={filters.maxPrice}
-                    onChange={(e) => handleRangeChange('maxPrice', parseInt(e.target.value))}
-                    className="w-full"
-                  />
-                </div>
-
-                <div className="mb-6">
-                  <h3 className="font-medium mb-3">Year Range</h3>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-sm text-gray-600">{filters.minYear}</span>
-                    <span className="text-sm text-gray-600">{filters.maxYear}</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <input
-                      type="range"
-                      min="2015"
-                      max="2025"
-                      value={filters.minYear}
-                      onChange={(e) => handleRangeChange('minYear', parseInt(e.target.value))}
-                      className="w-full"
-                    />
-                    <input
-                      type="range"
-                      min="2015"
-                      max="2025"
-                      value={filters.maxYear}
-                      onChange={(e) => handleRangeChange('maxYear', parseInt(e.target.value))}
-                      className="w-full"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="mb-6">
-                    <h3 className="font-medium mb-3">Brand</h3>
-                    <select 
-                      className="w-full p-2 border rounded-md"
-                      multiple={false}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value) {
-                          setFilters(prev => ({
-                            ...prev,
-                            brands: [...prev.brands, value]
-                          }));
-                        }
-                      }}
-                    >
-                      <option value="">Select Brand</option>
-                      {allBrands.map(brand => (
-                        <option key={brand} value={brand}>{brand}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="mb-6">
-                    <h3 className="font-medium mb-3">Body Type</h3>
-                    <select 
-                      className="w-full p-2 border rounded-md"
-                      multiple={false}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value) {
-                          setFilters(prev => ({
-                            ...prev,
-                            bodyTypes: [...prev.bodyTypes, value]
-                          }));
-                        }
-                      }}
-                    >
-                      <option value="">Select Body Type</option>
-                      {allBodyTypes.map(type => (
-                        <option key={type} value={type}>{type}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="mb-6">
-                    <h3 className="font-medium mb-3">Fuel Type</h3>
-                    <select 
-                      className="w-full p-2 border rounded-md"
-                      multiple={false}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value) {
-                          setFilters(prev => ({
-                            ...prev,
-                            fuelTypes: [...prev.fuelTypes, value]
-                          }));
-                        }
-                      }}
-                    >
-                      <option value="">Select Fuel Type</option>
-                      {allFuelTypes.map(type => (
-                        <option key={type} value={type}>{type}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="mb-6">
-                    <h3 className="font-medium mb-3">Transmission</h3>
-                    <select 
-                      className="w-full p-2 border rounded-md"
-                      multiple={false}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value) {
-                          setFilters(prev => ({
-                            ...prev,
-                            transmissions: [...prev.transmissions, value]
-                          }));
-                        }
-                      }}
-                    >
-                      <option value="">Select Transmission</option>
-                      {allTransmissions.map(type => (
-                        <option key={type} value={type}>{type}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="mt-4">
-                  <h3 className="font-medium mb-2">Selected Filters:</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {filters.brands.map(brand => (
-                      <span key={brand} className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full flex items-center">
-                        {brand}
-                        <button 
-                          onClick={() => handleCheckboxFilter('brands', brand)}
-                          className="ml-1 text-blue-600 hover:text-blue-800"
-                        >
-                          ×
-                        </button>
-                      </span>
-                    ))}
-                    {filters.bodyTypes.map(type => (
-                      <span key={type} className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full flex items-center">
-                        {type}
-                        <button 
-                          onClick={() => handleCheckboxFilter('bodyTypes', type)}
-                          className="ml-1 text-green-600 hover:text-green-800"
-                        >
-                          ×
-                        </button>
-                      </span>
-                    ))}
-                    {filters.fuelTypes.map(type => (
-                      <span key={type} className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full flex items-center">
-                        {type}
-                        <button 
-                          onClick={() => handleCheckboxFilter('fuelTypes', type)}
-                          className="ml-1 text-yellow-600 hover:text-yellow-800"
-                        >
-                          ×
-                        </button>
-                      </span>
-                    ))}
-                    {filters.transmissions.map(type => (
-                      <span key={type} className="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full flex items-center">
-                        {type}
-                        <button 
-                          onClick={() => handleCheckboxFilter('transmissions', type)}
-                          className="ml-1 text-purple-600 hover:text-purple-800"
-                        >
-                          ×
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-              */}
 
             {/* Main Content */}
             <div className="flex-grow">
@@ -628,88 +364,7 @@ export default function BrowseCars() {
                   {/* ...no cars message... */}
                 </div>
               )}              
-              {/*
-              {filteredCars.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredCars.map((car) => (
-                    <div key={car.id} className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg">
-                      <div className="relative h-48">
-                        { // COMMENTED OUT FOR testing
-                        <Image
-                          src={car.image}
-                          alt={car.name}
-                          fill
-                          className="object-cover"
-                        /> }
-                        {car.mileage === 0 && (
-                          <span className="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">NEW</span>
-                        )}
-                      </div>
-                      <div className="p-4">
-                        <h3 className="text-lg font-semibold mb-1">{car.name}</h3>
-                        <div className="flex justify-between items-center mb-3">
-                          <p className="text-gray-600">{car.year} • {car.transmission}</p>
-                          <p className="text-gray-600">{car.name}</p>
-                          <p className="text-blue-600 font-bold">{formatPrice(car.price)}</p>
-                        </div>
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          <span className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">{car.bodyType}</span>
-                          <span className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">{car.fuelType}</span>
-                          {car.mileage > 0 && (
-                            <span className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">{car.mileage.toLocaleString()} mi</span>
-                          )}
-                        </div>
-                        <button 
-                          onClick={() => handleViewCarDetails(car)}
-                          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded transition-colors"
-                        >
-                          View Details
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="bg-white rounded-lg shadow-md p-8 text-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <h3 className="text-xl font-semibold mb-2">No cars match your criteria</h3>
-                  <p className="text-gray-600 mb-4">Try adjusting your filters to see more results.</p>
-                  <button 
-                    onClick={resetFilters}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded transition-colors"
-                  >
-                    Reset All Filters
-                  </button>
-                </div>
-              )}
-              */}
-              
-              {/*
-              {// Pagination }
-              {filteredCars.length > 0 && (
-                <div className="mt-8 flex justify-center">
-                  <nav className="flex items-center">
-                    <button className="px-3 py-1 border rounded-l-md border-r-0 bg-gray-100 text-gray-600 hover:bg-gray-200">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                      </svg>
-                    </button>
-                    <button className="px-4 py-1 border border-r-0 bg-blue-600 text-white">1</button>
-                    <button className="px-4 py-1 border border-r-0 bg-gray-100 text-gray-600 hover:bg-gray-200">2</button>
-                    <button className="px-4 py-1 border border-r-0 bg-gray-100 text-gray-600 hover:bg-gray-200">3</button>
-                    <span className="px-4 py-1 border border-r-0 bg-gray-100">...</span>
-                    <button className="px-4 py-1 border border-r-0 bg-gray-100 text-gray-600 hover:bg-gray-200">8</button>
-                    <button className="px-3 py-1 border rounded-r-md bg-gray-100 text-gray-600 hover:bg-gray-200">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                      </svg>
-                    </button>
-                  </nav>
-                </div>
-              )}
-              */}
+
 
             </div>
           </div>
