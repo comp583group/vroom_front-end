@@ -83,9 +83,9 @@ export default function DashboardPage() {
         const top = data.slice(0, 3).map((car: CarApiResponse) => ({
           manufacturer: car.brand,
           model: car.model,
-          trim: '', // Adjust if trim data is available
+          trim: '', 
           year: car.year,
-          numStock: 1, // Assuming 1 per car; adjust if API provides stock count
+          numStock: 1, 
           type: car.body_type,
           status: capitalize(car.status) as InventoryItem["status"],
         }));
@@ -129,7 +129,10 @@ export default function DashboardPage() {
     fetchMetrics();
   }, []);
 
-  const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+  const capitalize = (str: string) => {
+    if (str === 'in_progress') return 'In Progress';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
 
   return (
     <div className="space-y-6">

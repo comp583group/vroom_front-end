@@ -22,7 +22,14 @@ interface LeadApiResponse {
 }
 
 export default function LeadsPage() {
-  const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+  const capitalize = (str: string) => {
+    const statusMap: { [key: string]: Lead['status'] } = {
+      'open': 'Open',
+      'in_progress': 'In Progress',
+      'contacted': 'Contacted',
+    };
+    return statusMap[str] || str.charAt(0).toUpperCase() + str.slice(1);
+  };
 
   const [leads, setLeads] = useState<Lead[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<string>('All');
@@ -30,7 +37,7 @@ export default function LeadsPage() {
   useEffect(() => {
     const fetchLeads = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/leads/`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/leads/detailed/`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
             'Content-Type': 'application/json',
@@ -46,6 +53,8 @@ export default function LeadsPage() {
         if (!Array.isArray(data)) {
           throw new Error("API returned malformed data: expected results[] array.");
         }
+
+        console.log('Raw API Data:', data);
 
           const formattedLeads = data.map((lead: LeadApiResponse) => {
             const vehicleInfo = lead.vehicle_interest
@@ -74,18 +83,28 @@ export default function LeadsPage() {
     fetchLeads();
   }, []);
   
-    //const [selectedStatus, setSelectedStatus] = useState<string>('All');
+  const handleStatusChange = (leadId: number, newStatus: Lead['status']) => {
+    setLeads((prevLeads) =>
+      prevLeads.map((lead) =>
+        lead.id === leadId ? { ...lead, status: newStatus } : lead
+      )
+    );
+  };
 
-    const filteredLeads = selectedStatus === 'All'
-      ? leads
-      : leads.filter((lead) => lead.status === selectedStatus);
-  
+  const handleDeleteLead = (leadId: number) => {
+    setLeads((prevLeads) => prevLeads.filter((lead) => lead.id !== leadId));
+  };
+
+  const filteredLeads = selectedStatus === 'All'
+    ? leads
+    : leads.filter((lead) => lead.status === selectedStatus);
+
     return (
       <div className="p-6">
         <h1 className="text-2xl font-bold text-black">Leads</h1>
         <p className="text-md text-gray-600 mb-7">Manage your customer inquiries</p>
         <LeadFilters selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} />
-        <LeadTable leads={filteredLeads} />
+        <LeadTable leads={filteredLeads} onStatusChange={handleStatusChange} onDeleteLead={handleDeleteLead} />
       </div>
     );
   }
