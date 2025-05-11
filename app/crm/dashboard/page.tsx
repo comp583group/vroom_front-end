@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { MetricCard } from '@/components/crm/dashboard/MetricCard';
 import { LeadList, Lead } from '@/components/crm/dashboard/LeadList';
 import { TopInventoryList, InventoryItem } from '@/components/crm/dashboard/TopInventoryList';
-
 import { UserPlus, CircleDollarSign, Car, Handshake } from 'lucide-react';
 
 interface LeadApiResponse {
@@ -37,16 +36,20 @@ interface CarApiResponse {
 export default function DashboardPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [topInventory, setTopInventory] = useState<InventoryItem[]>([]);
+  const [newLeads, setNewLeads] = useState<number>(0);
+  const [totalSales, setTotalSales] = useState<string>("$0");
+  const [carsInInventory, setCarsInInventory] = useState<number>(0);
+  const [dealsClosed, setDealsClosed] = useState<number>(0);
 
   useEffect(() => {
     const fetchLeads = async () => {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/leads/`, {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-              'Content-Type': 'application/json',
-            },
-          });
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+            'Content-Type': 'application/json',
+          },
+        });
 
         if (!res.ok) {
           const error = await res.json();
@@ -56,9 +59,7 @@ export default function DashboardPage() {
         if (!Array.isArray(data)) {
           throw new Error("API returned malformed data: expected results[] array.");
         }
-        
-        console.log('LEADS RESPONSE:', data);
-        // data.results.map?
+
         const formatted = data.map((lead: LeadApiResponse) => ({
           name: lead.name,
           inquiry: lead.message || `Interested in ${lead.vehicle_interest?.brand} ${lead.vehicle_interest?.model}`,
@@ -72,16 +73,21 @@ export default function DashboardPage() {
 
     const fetchInventory = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cars/`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cars/`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+            'Content-Type': 'application/json',
+          },
+        });
         const data = await res.json();
         const top = data.slice(0, 3).map((car: CarApiResponse) => ({
           manufacturer: car.brand,
           model: car.model,
-          trim: '', // Optional if you're not storing trim
+          trim: '', // Adjust if trim data is available
           year: car.year,
-          numStock: Math.floor(Math.random() * 20) + 1, // Placeholder stock count
+          numStock: 1, // Assuming 1 per car; adjust if API provides stock count
           type: car.body_type,
-          status: capitalize(car.status),
+          status: capitalize(car.status) as InventoryItem["status"],
         }));
         setTopInventory(top);
       } catch (err) {
@@ -89,8 +95,38 @@ export default function DashboardPage() {
       }
     };
 
+    const fetchMetrics = async () => {
+      try {
+        const token = localStorage.getItem('accessToken');
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    
+        const fetchWithDefault = async (url: string) => {
+          const res = await fetch(url, {
+            headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          });
+          console.log(`${url}: ${res.status}`);
+          return res.ok ? await res.json() : {};
+        };
+    
+        const [newLeadsData, salesData, inventoryData, dealsData] = await Promise.all([
+          fetchWithDefault(`${baseUrl}/api/metrics/new-leads/`),
+          fetchWithDefault(`${baseUrl}/api/metrics/sales/`),
+          fetchWithDefault(`${baseUrl}/api/metrics/cars-in-inventory/`),
+          fetchWithDefault(`${baseUrl}/api/metrics/deals-closed/`),
+        ]);
+    
+        setNewLeads(newLeadsData.new_leads || 0);
+        setTotalSales(`$${(salesData.total_sales || 0).toLocaleString()}`);
+        setCarsInInventory(inventoryData.cars_in_inventory || 0);
+        setDealsClosed(dealsData.deals_closed || 0);
+      } catch (err) {
+        console.error('Fetch error:', err);
+      }
+    };
+
     fetchLeads();
     fetchInventory();
+    fetchMetrics();
   }, []);
 
   const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
@@ -101,29 +137,29 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard 
           title="New Leads" 
-          value={leads.length.toString()} 
-          trend="+12%" 
+          value={newLeads.toString()} 
+          trend="" 
           trendColor="green" 
           icon={<UserPlus size={28} color="blue" />}
         />
         <MetricCard 
           title="Sales" 
-          value="$842K" 
-          trend="+8%" 
+          value={totalSales} 
+          trend="" 
           trendColor="green" 
           icon={<CircleDollarSign size={28} color="green" />} 
         />
         <MetricCard 
           title="Cars in Inventory" 
-          value={topInventory.length.toString()} 
-          trend="-3%" 
+          value={carsInInventory.toString()} 
+          trend="" 
           trendColor="red" 
           icon={<Car size={28} color="purple" />} 
         />
         <MetricCard 
           title="Deals Closed" 
-          value="42" 
-          trend="+15%" 
+          value={dealsClosed.toString()} 
+          trend="" 
           trendColor="green"
           icon={<Handshake size={28} color="orange" />}     
         />

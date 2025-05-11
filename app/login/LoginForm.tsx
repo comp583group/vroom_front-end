@@ -16,7 +16,7 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
+    try { // Store password in localStorage 
       await login(username, password); // This sets tokens & auth context
     } catch (err) {
       console.error(err);
