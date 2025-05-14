@@ -1,11 +1,9 @@
-// app/login/LoginForm.tsx
 "use client";
 
 import { useState } from 'react';
-//import Link from 'next/link';
-//import { useRouter } from 'next/navigation'; // Import useRouter
+import Link from 'next/link'; // Import Link
 
-import { useAuth } from '@/components/auth/AuthContext'; //useRouter is in this comp
+import { useAuth } from '@/components/auth/AuthContext'; 
 
 export default function LoginForm() {
   const [username, setUsername] = useState('');
@@ -13,18 +11,15 @@ export default function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const { login } = useAuth();
 
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try { // Store password in localStorage 
-      await login(username, password); // This sets tokens & auth context
+    try { 
+      await login(username, password); 
     } catch (err) {
       console.error(err);
       setError('Login failed. Check your credentials.');
     }
   };
-
-
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center" style={{ backgroundColor: "#FEBA33" }}>
@@ -32,7 +27,7 @@ export default function LoginForm() {
 
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
         <form onSubmit={handleSubmit} className="space-y-6">
-          {error && <div className="text-red-500 text-center mb-4">{error}</div>} {/* Error message */}
+          {error && <div className="text-red-500 text-center mb-4">{error}</div>} 
           
           <div>
             <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
@@ -61,17 +56,9 @@ export default function LoginForm() {
               onChange={(e) => setPassword(e.target.value)}
               className="text-black mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             />
-
-
-          {/*
-            <div className="text-sm my-3">
-              <Link href="/forgot-password" className="font-medium text-black hover:text-blue-500">Forgot password?</Link>
-            </div>
-          */}
             <div className="text-sm my-3 text-gray-500">
               Any issues logging-in, reach out to IT department.
             </div>
-          
           </div>
 
           <div>
@@ -84,16 +71,14 @@ export default function LoginForm() {
             </button>
           </div>
         </form>
-      </div>
 
-      {/*
-      <div className="mt-6 text-center">
-        <Link href="/register" className="font-medium text-white hover:text-blue-500">
-          Create an account
-        </Link>
+        {/* Register Button or Link */}
+        <div className="mt-6 text-center">
+          <Link href="/register" className="font-medium text-black hover:text-blue-500">
+            Create an Account
+          </Link>
+        </div>
       </div>
-      */}
-
 
       <footer className="mt-8 text-center text-sm text-grey-600">
         &copy; {new Date().getFullYear()} Carvantage. All rights reserved. 

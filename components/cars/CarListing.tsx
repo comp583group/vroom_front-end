@@ -53,6 +53,7 @@ export default function CarListing({ cars, onViewDetails, formatPrice, itemsPerP
             </div>
             <div className="p-4">
               <h3 className="text-black text-lg font-semibold mb-1">{car.name}</h3>
+            <h3 className="text-lg font-semibold mb-1 text-black">{car.name}</h3>
               <div className="flex justify-between items-center mb-3">
                 <p className="text-gray-600">{car.year} • {car.transmission}</p>
                 <p className="text-blue-600 font-bold">{formatPrice(car.price)}</p>
