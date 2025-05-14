@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { Line, Pie, Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, 
+BarElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
 
 // Register Chart.js components
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, 
+BarElement, ArcElement, Title, Tooltip, Legend);
 
 // Define interfaces for API responses
 interface MetricData {
@@ -148,19 +150,26 @@ export default function ReportsPage() {
     ],
   };
 
+
+  // Defining color mapping for lead statuses
+  const statusColorMap: { [key: string]: string } = {
+    Open: 'rgba(54, 162, 235, 0.6)',  // Blue
+    'In Progress': 'rgba(255, 159, 64, 0.6)',  // Orange
+    Contacted: 'rgba(255, 206, 86, 0.6)',  // Yellow
+    Converted: 'rgba(75, 192, 75, 0.6)',  // Green
+    Lost: 'rgba(255, 99, 132, 0.6)',  // Red
+  };
+
+  // Map colors to the order of statuses in leadStatusBreakdown
+  const leadStatusColors = leadStatusBreakdown.map(item => statusColorMap[item.status] || 'rgba(128, 128, 128, 0.6)'); // Fallback to gray if status not found
+
   const leadStatusData = {
     labels: leadStatusBreakdown.map(item => item.status),
     datasets: [
       {
         label: 'Lead Count',
         data: leadStatusBreakdown.map(item => item.count),
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.6)',  // Red for Open
-          'rgba(54, 162, 235, 0.6)',  // Blue for In Progress
-          'rgba(255, 206, 86, 0.6)',  // Yellow for Contacted
-          'rgba(75, 192, 192, 0.6)',  // Teal for Converted
-          'rgba(153, 102, 255, 0.6)', // Purple for Lost
-        ],
+        backgroundColor: leadStatusColors,
       },
     ],
   };
@@ -215,11 +224,22 @@ export default function ReportsPage() {
         <div className="bg-white p-4 rounded-lg shadow">
           <h3 className="text-lg font-bold text-black mb-4">Lead Status Breakdown</h3>
           <div className="h-64">
-          {salesOverTime.length > 0 ? (
-              <Line data={salesOverTimeData} options={{ maintainAspectRatio: false, responsive: true }} />
-          ) : (
-              <p>No sales data available.</p>
-          )}
+          {leadStatusBreakdown.length > 0 ? (
+              <Pie 
+                data={leadStatusData} 
+                options={{ 
+                  maintainAspectRatio: false, 
+                  responsive: true,
+                  plugins: {
+                    legend: {
+                      position: 'top',
+                    },
+                  },
+                }} 
+              />
+            ) : (
+              <p>No lead status data available.</p>
+            )}
           </div>
         </div>
 

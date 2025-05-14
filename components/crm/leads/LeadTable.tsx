@@ -7,7 +7,7 @@ export type Lead = {
   name: string;
   email: string;
   vehicle: string;
-  status: 'Open' | 'In Progress' | 'Contacted';
+  status: 'Open' | 'In Progress' | 'Contacted' | 'Converted' | 'Lost';
   message: string;
   date: string;
   assignedTo: string | null;
@@ -27,16 +27,20 @@ export function LeadTable({
   const statusColors = {
     Open: 'bg-blue-100 text-blue-800',
     'In Progress': 'bg-orange-100 text-orange-800',
-    Contacted: 'bg-green-100 text-green-800',
+    Contacted: 'bg-yellow-100 text-yellow-800',
+    Converted: 'bg-green-100 text-green-800',
+    Lost: 'bg-red-100 text-red-800',
   };
 
-  const statusOptions: Lead['status'][] = ['Open', 'In Progress', 'Contacted'];
+  const statusOptions: Lead['status'][] = ['Open', 'In Progress', 'Contacted', 'Converted', 'Lost'];
 
   // Map display statuses to backend values
   const statusToBackendMap: { [key in Lead['status']]: string } = {
     Open: 'open',
     'In Progress': 'in_progress',
     Contacted: 'contacted',
+    Converted: 'converted',
+    Lost: 'lost',
   };
 
   const [expandedLead, setExpandedLead] = useState<number | null>(null);

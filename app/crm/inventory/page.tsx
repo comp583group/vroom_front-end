@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Car, InventoryTable } from '@/components/crm/inventory/InventoryTable';
 import { InventoryFilters } from '@/components/crm/inventory/InventoryFilters';
 import { AddVehicleModal } from '@/components/crm/inventory/AddVehicleModal';
+import { EditVehicleModal } from '@/components/crm/inventory/EditVehicleModal';
 
 interface CarApiResponse {
   id: number;
@@ -22,7 +23,9 @@ export default function InventoryPage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedStatus, setSelectedStatus] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false); // Add modal state
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false); 
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingCar, setEditingCar] = useState<Car | null>(null);
 
   const fetchInventory = async () => {
     try {
@@ -83,6 +86,44 @@ export default function InventoryPage() {
     setIsAddModalOpen(true);
   };
 
+  const handleEdit = (car: Car) => {
+    if (typeof car.id !== 'number') {
+      console.error('Invalid car ID:', car.id);
+      setError('Cannot edit vehicle: Invalid car ID');
+      return;
+    }
+    setEditingCar(car);
+    setIsEditModalOpen(true);
+  };
+
+  const handleDelete = async (carId: number) => {
+    if (!confirm('Are you sure you want to delete this vehicle?')) return;
+
+    try {
+      const token = localStorage.getItem('accessToken');
+      if (!token) throw new Error('No access token found');
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cars/${carId}/`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Failed to delete vehicle');
+      }
+
+      setInventory((prev) => prev.filter((car) => car.id !== carId));
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to delete vehicle';
+      console.error('Error deleting vehicle:', error);
+      setError(errorMessage);
+    }
+  };
+
   return (
     <div className="p-6 space-y-6">
       <h1 className="text-2xl font-bold text-black">Inventory</h1>
@@ -98,10 +139,23 @@ export default function InventoryPage() {
         setSearchQuery={setSearchQuery}
         onAddClick={handleAddVehicle}
       />
-      <InventoryTable cars={filteredInventory} />
+      <InventoryTable 
+        cars={filteredInventory} 
+        onEdit={handleEdit} 
+        onDelete={handleDelete}
+      />
       <AddVehicleModal 
         isOpen={isAddModalOpen} 
         onClose={() => setIsAddModalOpen(false)} 
+        setInventory={setInventory} 
+      />
+      <EditVehicleModal 
+        isOpen={isEditModalOpen} 
+        onClose={() => {
+          setIsEditModalOpen(false);
+          setEditingCar(null);
+        }} 
+        car={editingCar} 
         setInventory={setInventory} 
       />
     </div>

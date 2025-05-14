@@ -1,23 +1,24 @@
 'use client';
 
-import { useState, Dispatch, SetStateAction } from 'react';
+import { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import { Car } from './InventoryTable';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  car: Car | null;
   setInventory: Dispatch<SetStateAction<Car[]>>;
 }
 
-export function AddVehicleModal({ isOpen, onClose, setInventory }: Props) {
+export function EditVehicleModal({ isOpen, onClose, car, setInventory }: Props) {
   const [formData, setFormData] = useState({
-    brand: '',
-    model: '',
-    year: '',
-    stock_number: '',
-    body_type: '',
-    price: '',
-    status: 'available',
+    brand: car?.manufacturer || '',
+    model: car?.model || '',
+    year: car?.year?.toString() || '',
+    stock_number: car?.stockNumber || '',
+    body_type: car?.type || '',
+    price: car?.price?.toString() || '',
+    status: car?.status?.toLowerCase() || 'available',
     mileage: '',
     fuel_type: '',
     transmission: '',
@@ -25,82 +26,139 @@ export function AddVehicleModal({ isOpen, onClose, setInventory }: Props) {
     features: '',
   });
 
+  const [image, setImage] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCarDetails = async () => {
+      if (!car) return;
+      try {
+        const token = localStorage.getItem('accessToken');
+        if (!token) throw new Error('No access token found');
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cars/${car.id}/`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) throw new Error('Failed to fetch car details');
+        const data = await response.json();
+
+        setFormData({
+          brand: data.brand,
+          model: data.model,
+          year: data.year.toString(),
+          stock_number: data.stock_number,
+          body_type: data.body_type,
+          price: data.price.toString(),
+          status: data.status,
+          mileage: data.mileage.toString(),
+          fuel_type: data.fuel_type,
+          transmission: data.transmission,
+          color: data.color,
+          features: data.features ? data.features.join(', ') : '',
+        });
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to fetch car details';
+        console.error('Error fetching car details:', error);
+        setError(errorMessage);
+      }
+    };
+
+    if (isOpen && car) {
+      fetchCarDetails();
+    }
+  }, [isOpen, car]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setImage(file);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (!car) return;
 
     try {
       const token = localStorage.getItem('accessToken');
       if (!token) throw new Error('No access token found');
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cars/`, {
-        method: 'POST',
+      const formDataToSend = new FormData();
+      formDataToSend.append('brand', formData.brand);
+      formDataToSend.append('model', formData.model);
+      formDataToSend.append('year', formData.year);
+      formDataToSend.append('stock_number', formData.stock_number);
+      formDataToSend.append('body_type', formData.body_type);
+      formDataToSend.append('price', formData.price);
+      formDataToSend.append('status', formData.status);
+      formDataToSend.append('mileage', formData.mileage);
+      formDataToSend.append('fuel_type', formData.fuel_type);
+      formDataToSend.append('transmission', formData.transmission);
+      formDataToSend.append('color', formData.color);
+      formDataToSend.append('features', JSON.stringify(formData.features ? formData.features.split(',').map(item => item.trim()) : []));
+      formDataToSend.append('name', `${formData.brand} ${formData.model}`);
+
+      if (image) {
+        formDataToSend.append('image', image);
+      }
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cars/${car.id}/`, {
+        method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          brand: formData.brand,
-          model: formData.model,
-          year: parseInt(formData.year),
-          stock_number: formData.stock_number,
-          body_type: formData.body_type,
-          price: parseFloat(formData.price),
-          status: formData.status.toLowerCase(),
-          mileage: parseInt(formData.mileage),
-          fuel_type: formData.fuel_type,
-          transmission: formData.transmission,
-          color: formData.color,
-          features: formData.features ? formData.features.split(',').map(item => item.trim()) : [],
-          name: `${formData.brand} ${formData.model}`, // Derive name from brand and model
-          date_added: new Date().toISOString().split('T')[0], // Current date
-        }),
+        body: formDataToSend,
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.detail || 'Failed to add vehicle');
+        console.error('Update vehicle error response:', errorData);
+        throw new Error(JSON.stringify(errorData) || 'Failed to update vehicle');
       }
 
-      const newCar = await response.json();
-      setInventory((prev) => [
-        ...prev,
-        {
-          id: newCar.id,
-          year: newCar.year,
-          manufacturer: newCar.brand,
-          model: newCar.model,
-          trim: '',
-          stockNumber: newCar.stock_number,
-          type: newCar.body_type,
-          price: newCar.price,
-          status: newCar.status.charAt(0).toUpperCase() + newCar.status.slice(1),
-          dateAdded: newCar.date_added,
-        },
-      ]);
+      const updatedCar = await response.json();
+      setInventory((prev) =>
+        prev.map((item) =>
+          item.id === car.id
+            ? {
+                id: updatedCar.id,
+                year: updatedCar.year,
+                manufacturer: updatedCar.brand,
+                model: updatedCar.model,
+                trim: '',
+                stockNumber: updatedCar.stock_number,
+                type: updatedCar.body_type,
+                price: updatedCar.price,
+                status: updatedCar.status.charAt(0).toUpperCase() + updatedCar.status.slice(1),
+                dateAdded: updatedCar.date_added,
+              }
+            : item
+        )
+      );
 
-      onClose(); // Close the modal on success
+      onClose();
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch inventory';
-
-      console.error('Error adding vehicle:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to update vehicle';
+      console.error('Error updating vehicle:', error);
       setError(errorMessage);
     }
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || !car) return null;
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-[80vh] overflow-y-auto">
-        <h2 className="text-xl text-blue-800 font-bold mb-4">Add New Vehicle</h2>
+        <h2 className="text-xl text-blue-800 font-bold mb-4">Edit Vehicle</h2>
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4">
             {error}
@@ -242,6 +300,16 @@ export function AddVehicleModal({ isOpen, onClose, setInventory }: Props) {
               placeholder="e.g., Sunroof, Navigation, Leather Seats"
             />
           </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Image</label>
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="mt-1 block w-full text-black"
+            />
+          </div>
           <div className="flex justify-end gap-2 mt-6">
             <button
               type="button"
@@ -254,7 +322,7 @@ export function AddVehicleModal({ isOpen, onClose, setInventory }: Props) {
               type="submit"
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
             >
-              Add Vehicle
+              Save Changes
             </button>
           </div>
         </form>
