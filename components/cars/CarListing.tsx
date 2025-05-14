@@ -42,7 +42,7 @@ export default function CarListing({ cars, onViewDetails, formatPrice, itemsPerP
           <div key={car.id} className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg">
             <div className="relative h-48">
               <Image
-                src={car.image}
+                src={car.image && car.image.trim() !== "" ? car.image : "/images/placeholder_car.png"}
                 alt={car.name}
                 fill
                 className="object-cover"
