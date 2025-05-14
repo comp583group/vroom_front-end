@@ -13,7 +13,17 @@ export type Lead = {
   assignedTo: string | null;
 };
 
-export function LeadTable({ leads, onStatusChange, onDeleteLead }: { leads: Lead[], onStatusChange: (leadId: number, newStatus: Lead['status']) => void, onDeleteLead: (leadId: number) => void }) {
+export function LeadTable({ 
+  leads, 
+  onStatusChange, 
+  onDeleteLead,
+  highlightedLeadId 
+}: { 
+  leads: Lead[], 
+  onStatusChange: (leadId: number, newStatus: Lead['status']) => void, 
+  onDeleteLead: (leadId: number) => void 
+  highlightedLeadId?: number | null
+}) {
   const statusColors = {
     Open: 'bg-blue-100 text-blue-800',
     'In Progress': 'bg-orange-100 text-orange-800',
@@ -169,7 +179,9 @@ export function LeadTable({ leads, onStatusChange, onDeleteLead }: { leads: Lead
           {leadData.map((lead) => (
             <tr
               key={lead.id}
-              className="border-t hover:bg-gray-50 transition"
+              className={`border-t hover:bg-gray-50 transition ${
+                lead.id === highlightedLeadId ? 'bg-yellow-100' : ''
+              }`}
             >
               <td className="px-6 py-4 whitespace-nowrap">
                 <p className="font-medium text-black">{lead.name}</p>

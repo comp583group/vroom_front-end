@@ -87,6 +87,7 @@ export default function ReportsPage() {
         setSalesOverTime(data);
       } catch (error) {
         console.error('Error fetching sales over time:', error);
+        setSalesOverTime([]);
       }
     };
 
@@ -214,7 +215,11 @@ export default function ReportsPage() {
         <div className="bg-white p-4 rounded-lg shadow">
           <h3 className="text-lg font-bold text-black mb-4">Lead Status Breakdown</h3>
           <div className="h-64">
-            <Pie data={leadStatusData} options={{ maintainAspectRatio: false, responsive: true }} />
+          {salesOverTime.length > 0 ? (
+              <Line data={salesOverTimeData} options={{ maintainAspectRatio: false, responsive: true }} />
+          ) : (
+              <p>No sales data available.</p>
+          )}
           </div>
         </div>
 
@@ -222,7 +227,21 @@ export default function ReportsPage() {
         <div className="bg-white p-4 rounded-lg shadow">
           <h3 className="text-lg font-bold text-black mb-4">Top Vehicles by Leads</h3>
           <div className="h-64">
-            <Bar data={topVehiclesData} options={{ maintainAspectRatio: false, responsive: true, indexAxis: 'y' }} />
+            <Bar data={topVehiclesData} options={{ 
+              maintainAspectRatio: false, 
+              responsive: true, 
+              indexAxis: 'y', 
+              scales: {
+                x: {
+                    ticks: {
+                        stepSize: 1, // Forces whole number increments
+                    },
+                    suggestedMin: 0, // Start at 0
+                    suggestedMax: Math.max(...topVehicles.map(item => item.lead_count)) + 1, // Dynamic max based on data
+                },
+              },
+            }}   
+            />
           </div>
         </div>
       </div>
