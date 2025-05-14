@@ -76,7 +76,7 @@ export default function Home() {
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">Pre-Owned Vehicles</h3>
+                <h3 className="text-black text-xl font-semibold mb-2">Pre-Owned Vehicles</h3>
                 <p className="text-gray-600 mb-4">Quality used cars inspected and certified for your peace of mind.</p>
                 <Link href="/browse-cars" className="text-blue-600 font-medium hover:underline">Browse Used Cars →</Link>
               </div>
