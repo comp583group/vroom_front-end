@@ -20,7 +20,7 @@ export type InventoryItem = {
   export function TopInventoryList({ cars }: { cars: InventoryItem[] }) {
     return (
       <div className="bg-white p-4 rounded-lg shadow">
-        <h3 className="text-lg font-bold text-black mb-4">Top Inventory</h3>
+        <h3 className="text-lg font-bold text-black mb-4">Recent Inventory</h3>
         <ul className="space-y-4">
           {cars.map((car, i) => (
             <li key={i} className="flex justify-between text-black font-medium hover:bg-gray-100 rounded-md transition cursor-pointer">

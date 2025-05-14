@@ -9,7 +9,7 @@ import FilterSidebar from "@/components/cars/FilterSidebar";
 import MobileFilterPanel from "@/components/cars/MobileFilterPanel";
 import Footer from "@/components/nav/Footer";
 import LeadForm from "@/components/forms/LeadForm";
-import { useSearchParams } from 'next/navigation';
+//import { useSearchParams } from 'next/navigation';
 
 
 
@@ -93,7 +93,7 @@ export default function BrowseCars({ searchQuery }: { searchQuery: string }) {
   fetchCars();
 }, []);
 
-  const searchParams = useSearchParams();
+  //const searchParams = useSearchParams();
 
   // Apply filters and sorting
   useEffect(() => {
@@ -227,7 +227,7 @@ export default function BrowseCars({ searchQuery }: { searchQuery: string }) {
               
               <div className="relative h-64 md:h-80 mb-6">
                 <Image
-                  src={selectedCar.image}
+                  src={selectedCar.image && selectedCar.image.trim() !== "" ? selectedCar.image : "/images/placeholder_car.png"}
                   alt={selectedCar.name}
                   fill
                   className="object-cover rounded-lg"
